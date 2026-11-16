@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr" data-role="notaire">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mon profil · Portail EDR</title>
+
+    <link rel="stylesheet" href="base.css">
+    <script src="proto.js"></script>
+</head>
+
+<body>
+
+    <header class="top">
+
+        <a class="logo" href="m0.html">
+            <svg class="senegal-flag" viewBox="0 0 3 2" aria-label="Drapeau du Sénégal" role="img">
+                <rect width="1" height="2" fill="#00853F"/>
+                <rect x="1" width="1" height="2" fill="#FDEF42"/>
+                <rect x="2" width="1" height="2" fill="#E31B23"/>
+                <path d="M1.5 .55l.11.34h.36l-.29.21.11.35-.29-.22-.29.22.11-.35-.29-.21h.36z" fill="#00853F"/>
+            </svg>
+
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 9h18L12 3 3 9Z"/>
+                    <path d="M5 10v8M9 10v8M15 10v8M19 10v8"/>
+                    <path d="M3 19h18M2 22h20"/>
+                </svg>
+            </div>
+
+            <div>
+                Portail EDR
+                <small>État des droits réels</small>
+            </div>
+        </a>
+
+        <div class="sp"></div>
+
+        <a class="btn s sm connexion-btn" data-auth="non" href="connexion.html">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/><path d="M10 12v2h4v-2"/></svg>
+            Connexion
+        </a>
+
+        <details class="account" data-for="notaire">
+            <summary>
+                <span class="avatar">MF</span>
+                <span class="who">Me Mariama Fall<small>Notaire</small></span>
+                <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <nav class="account-menu" aria-label="Compte">
+                <a href="profil.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Mon profil</a>
+                <a href="m1.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 12v6"/><path d="M9 15h6"/></svg>Nouvelle demande</a>
+                <a class="out" href="m0.html?role=visiteur"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>Déconnexion</a>
+            </nav>
+        </details>
+
+        <details class="account" data-for="conservateur">
+            <summary>
+                <span class="avatar">MD</span>
+                <span class="who">Moussa Diop<small>Conservateur</small></span>
+                <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <nav class="account-menu" aria-label="Compte">
+                <a href="profil.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Mon profil</a>
+                <a href="m3.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>Demandes du bureau</a>
+                <a class="out" href="m0.html?role=visiteur"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>Déconnexion</a>
+            </nav>
+        </details>
+
+        <details class="account" data-for="administrateur">
+            <summary>
+                <span class="avatar">AB</span>
+                <span class="who">Aïssatou Ba<small>Administrateur</small></span>
+                <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <nav class="account-menu" aria-label="Compte">
+                <a href="profil.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Mon profil</a>
+                <a href="admin.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Administration</a>
+                <a class="out" href="m0.html?role=visiteur"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>Déconnexion</a>
+            </nav>
+        </details>
+
+    </header>
+
+    <main class="page">
+
+        <div class="page-head">
+            <div>
+                <h1>Mon profil</h1>
+                <p class="sub">Vos informations personnelles et les paramètres de votre compte.</p>
+            </div>
+            <a class="btn p" data-for="notaire" href="m1.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 12v6"/><path d="M9 15h6"/></svg>Nouvelle demande</a>
+            <a class="btn p" data-for="conservateur" href="m3.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>Demandes du bureau</a>
+            <a class="btn p" data-for="administrateur" href="admin.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Administration</a>
+        </div>
+
+        <div class="cols">
+            <div class="stack">
+
+            <section class="card" data-for="notaire">
+                <div class="card-head">
+                    <h2>Informations personnelles</h2>
+                    <span class="badge b-pay">Compte actif</span>
+                </div>
+                <dl class="dl">
+                    <div><dt>Nom complet</dt><dd>Me Mariama Fall</dd></div>
+                    <div><dt>Rôle</dt><dd>Notaire</dd></div>
+                    <div><dt>Adresse e-mail</dt><dd>m.fall@exemple.sn</dd></div>
+                    <div><dt>Téléphone</dt><dd>+221 33 000 01 01</dd></div>
+                    <div><dt>Bureau de rattachement</dt><dd>Aucun</dd></div>
+                </dl>
+                <p class="hint" style="margin-top:20px">Ces informations sont gérées par l'administrateur de la plateforme. Adressez-vous à lui pour toute modification.</p>
+            </section>
+
+            <section class="card" data-for="conservateur">
+                <div class="card-head">
+                    <h2>Informations personnelles</h2>
+                    <span class="badge b-pay">Compte actif</span>
+                </div>
+                <dl class="dl">
+                    <div><dt>Nom complet</dt><dd>Moussa Diop</dd></div>
+                    <div><dt>Rôle</dt><dd>Conservateur</dd></div>
+                    <div><dt>Adresse e-mail</dt><dd>m.diop@exemple.sn</dd></div>
+                    <div><dt>Téléphone</dt><dd>+221 33 000 00 01</dd></div>
+                    <div><dt>Bureau d'affectation</dt><dd>Bureau de Dakar-Plateau</dd></div>
+                </dl>
+                <p class="hint" style="margin-top:20px">Ces informations sont gérées par l'administrateur de la plateforme. Adressez-vous à lui pour toute modification.</p>
+            </section>
+
+            <section class="card" data-for="administrateur">
+                <div class="card-head">
+                    <h2>Informations personnelles</h2>
+                    <span class="badge b-pay">Compte actif</span>
+                </div>
+                <dl class="dl">
+                    <div><dt>Nom complet</dt><dd>Aïssatou Ba</dd></div>
+                    <div><dt>Rôle</dt><dd>Administrateur</dd></div>
+                    <div><dt>Adresse e-mail</dt><dd>a.ba@exemple.sn</dd></div>
+                    <div><dt>Téléphone</dt><dd>+221 33 000 00 00</dd></div>
+                    <div><dt>Bureau d'affectation</dt><dd>Aucun</dd></div>
+                </dl>
+                <p class="hint" style="margin-top:20px">Ces informations sont gérées par l'administrateur de la plateforme. Adressez-vous à lui pour toute modification.</p>
+            </section>
+
+                <section class="card flush" data-for="notaire">
+                    <div class="card-head">
+                        <h2>Mes dernières demandes</h2>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="table">
+                            <thead><tr><th>Référence</th><th>Objet</th><th>Soumise le</th><th>Statut</th></tr></thead>
+                            <tbody>
+                                <tr><td><b>EDR-2026-000495</b></td><td>Personne</td><td>10 nov. 2026</td><td><span class="badge b-sou">Soumise</span></td></tr>
+                                <tr><td><b>EDR-2026-000491</b></td><td>Bien · TF 3307</td><td>9 nov. 2026</td><td><span class="badge b-enc">En cours</span></td></tr>
+                                <tr><td><a href="m2.html">EDR-2026-000482</a></td><td>Bien · TF 4521</td><td>3 nov. 2026</td><td><span class="badge b-dis">Disponible</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <form class="card" action="profil.html" method="post">
+                <h2>Sécurité du compte</h2>
+                <div class="field">
+                    <label for="mdp-actuel">Mot de passe actuel</label>
+                    <input class="in" id="mdp-actuel" name="motDePasseActuel" type="password" autocomplete="current-password" required>
+                </div>
+                <div class="field">
+                    <label for="mdp-nouveau">Nouveau mot de passe</label>
+                    <input class="in" id="mdp-nouveau" name="nouveauMotDePasse" type="password" autocomplete="new-password" required>
+                </div>
+                <div class="field">
+                    <label for="mdp-confirmation">Confirmer le nouveau mot de passe</label>
+                    <input class="in" id="mdp-confirmation" name="confirmation" type="password" autocomplete="new-password" required>
+                </div>
+                <div class="actions">
+                    <button class="btn p block" type="submit">Modifier le mot de passe</button>
+                </div>
+                <div class="blk" style="margin-top:24px;padding-bottom:0">
+                    <a class="btn d block" href="m0.html?role=visiteur"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>Déconnexion</a>
+                </div>
+            </form>
+        </div>
+
+    </main>
+
+    <footer class="site-footer">
+        Portail EDR · État des droits réels
+    </footer>
+
+</body>
+
+</html>

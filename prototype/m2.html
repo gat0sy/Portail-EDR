@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr" data-role="visiteur">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Suivi de la demande · Portail EDR</title>
+
+    <link rel="stylesheet" href="base.css">
+    <script src="proto.js"></script>
+</head>
+
+<body>
+
+    <header class="top">
+
+        <a class="logo" href="m0.html">
+            <svg class="senegal-flag" viewBox="0 0 3 2" aria-label="Drapeau du Sénégal" role="img">
+                <rect width="1" height="2" fill="#00853F"/>
+                <rect x="1" width="1" height="2" fill="#FDEF42"/>
+                <rect x="2" width="1" height="2" fill="#E31B23"/>
+                <path d="M1.5 .55l.11.34h.36l-.29.21.11.35-.29-.22-.29.22.11-.35-.29-.21h.36z" fill="#00853F"/>
+            </svg>
+
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 9h18L12 3 3 9Z"/>
+                    <path d="M5 10v8M9 10v8M15 10v8M19 10v8"/>
+                    <path d="M3 19h18M2 22h20"/>
+                </svg>
+            </div>
+
+            <div>
+                Portail EDR
+                <small>État des droits réels</small>
+            </div>
+        </a>
+
+        <div class="sp"></div>
+
+        <a class="btn s sm connexion-btn" data-auth="non" href="connexion.html">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/><path d="M10 12v2h4v-2"/></svg>
+            Connexion
+        </a>
+
+        <details class="account" data-for="notaire">
+            <summary>
+                <span class="avatar">MF</span>
+                <span class="who">Me Mariama Fall<small>Notaire</small></span>
+                <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <nav class="account-menu" aria-label="Compte">
+                <a href="profil.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Mon profil</a>
+                <a href="m1.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 12v6"/><path d="M9 15h6"/></svg>Nouvelle demande</a>
+                <a class="out" href="m0.html?role=visiteur"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>Déconnexion</a>
+            </nav>
+        </details>
+
+        <details class="account" data-for="conservateur">
+            <summary>
+                <span class="avatar">MD</span>
+                <span class="who">Moussa Diop<small>Conservateur</small></span>
+                <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <nav class="account-menu" aria-label="Compte">
+                <a href="profil.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Mon profil</a>
+                <a href="m3.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>Demandes du bureau</a>
+                <a class="out" href="m0.html?role=visiteur"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>Déconnexion</a>
+            </nav>
+        </details>
+
+        <details class="account" data-for="administrateur">
+            <summary>
+                <span class="avatar">AB</span>
+                <span class="who">Aïssatou Ba<small>Administrateur</small></span>
+                <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <nav class="account-menu" aria-label="Compte">
+                <a href="profil.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Mon profil</a>
+                <a href="admin.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Administration</a>
+                <a class="out" href="m0.html?role=visiteur"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>Déconnexion</a>
+            </nav>
+        </details>
+
+    </header>
+
+    <main class="page">
+
+        <span id="paye"></span>
+
+        <a class="back" data-auth="non" href="suivi-code.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>Saisir un autre code de suivi</a>
+        <a class="back" data-for="notaire" href="profil.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>Retour à mon profil</a>
+
+        <h1>Suivi de votre demande</h1>
+
+        <section class="card" style="margin-top:24px">
+            <div class="card-head" style="justify-content:flex-start;margin-bottom:0">
+                <h2 style="font-size:20px">Demande EDR-2026-000482</h2>
+                <span class="badge b-dis etat-a-payer">Disponible · paiement requis</span>
+                <span class="badge b-pay etat-paye">Payée</span>
+            </div>
+
+            <dl class="dl four" style="margin-top:22px;padding-top:22px;border-top:1px solid var(--line)">
+                <div><dt>Objet</dt><dd>Sur un bien</dd></div>
+                <div><dt>Titre foncier</dt><dd>TF 4521</dd></div>
+                <div><dt>Soumise le</dt><dd>3 novembre 2026</dd></div>
+                <div><dt>Bureau</dt><dd>Bureau de Dakar-Plateau</dd></div>
+            </dl>
+
+            <ol class="tl">
+                <li class="done">Soumise<small>3 nov. 2026</small></li>
+                <li class="done">En cours de traitement<small>4 nov. 2026</small></li>
+                <li class="cur">Disponible<small>11 nov. 2026</small></li>
+                <li class="last">Payée<small class="etat-a-payer">Téléchargement ouvert</small><small class="etat-paye">12 nov. 2026</small></li>
+            </ol>
+        </section>
+
+        <div class="cols even" style="margin-top:23px">
+
+            <section class="card">
+                <h2>Paiement des frais</h2>
+
+                <form class="etat-a-payer" action="m2.html#paye" method="post">
+                    <div class="card-head" style="align-items:flex-end;margin-bottom:0">
+                        <div>
+                            <small style="color:var(--mut);font-weight:650;font-size:12px">Montant à régler</small>
+                            <div class="amount">1 000 FCFA</div>
+                        </div>
+                        <span class="badge b-enc">À régler avant le 18 novembre 2026</span>
+                    </div>
+
+                    <fieldset class="pay-modes">
+                        <label class="opt compact"><input type="radio" name="modePaiement" value="WAVE" checked>Wave</label>
+                        <label class="opt compact"><input type="radio" name="modePaiement" value="ORANGE_MONEY">Orange Money</label>
+                        <label class="opt compact"><input type="radio" name="modePaiement" value="CARTE_BANCAIRE">Carte bancaire</label>
+                    </fieldset>
+
+                    <button class="btn p block" type="submit">Payer 1 000 FCFA</button>
+                    <p class="hint">Passé ce délai, la demande expire et le résultat n'est plus accessible.</p>
+                </form>
+
+                <div class="etat-paye">
+                    <div class="lock" style="background:var(--okbg)">
+                        <span class="file-ic" style="color:var(--ok)"><svg class="ic lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg></span>
+                        <div><strong>Paiement confirmé</strong><span>1 000 FCFA réglés par Wave le 12 novembre 2026</span></div>
+                    </div>
+                    <p class="hint">Un SMS de confirmation vous a été envoyé. Le résultat est désormais téléchargeable.</p>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Résultat</h2>
+
+                <div class="lock">
+                    <span class="file-ic etat-a-payer"><svg class="ic lg" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+                    <span class="file-ic etat-paye"><svg class="ic lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></span>
+                    <div>
+                        <strong>Résultat de la demande</strong>
+                        <span class="etat-a-payer">Téléchargeable après paiement</span>
+                        <span class="etat-paye">État des droits réels · PDF</span>
+                    </div>
+                </div>
+
+                <button class="btn off block etat-a-payer" type="button" disabled><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Télécharger le résultat</button>
+                <a class="btn p block etat-paye" href="m2.html#paye"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg>Télécharger le résultat</a>
+
+                <div class="hist">
+                    <dl class="dl one">
+                        <div class="etat-paye"><dt>SMS · Paiement confirmé</dt><dd>12 nov. 2026</dd></div>
+                        <div><dt>SMS · Résultat disponible</dt><dd>11 nov. 2026</dd></div>
+                        <div><dt>SMS · Code de vérification</dt><dd>3 nov. 2026</dd></div>
+                    </dl>
+                </div>
+            </section>
+
+        </div>
+
+    </main>
+
+    <footer class="site-footer">
+        Portail EDR · État des droits réels
+    </footer>
+
+</body>
+
+</html>

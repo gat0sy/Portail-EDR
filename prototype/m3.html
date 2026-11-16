@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr" data-role="conservateur">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Demandes du bureau · Portail EDR</title>
+
+    <link rel="stylesheet" href="base.css">
+    <script src="proto.js"></script>
+</head>
+
+<body>
+
+    <header class="top">
+
+        <a class="logo" href="m0.html">
+            <svg class="senegal-flag" viewBox="0 0 3 2" aria-label="Drapeau du Sénégal" role="img">
+                <rect width="1" height="2" fill="#00853F"/>
+                <rect x="1" width="1" height="2" fill="#FDEF42"/>
+                <rect x="2" width="1" height="2" fill="#E31B23"/>
+                <path d="M1.5 .55l.11.34h.36l-.29.21.11.35-.29-.22-.29.22.11-.35-.29-.21h.36z" fill="#00853F"/>
+            </svg>
+
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 9h18L12 3 3 9Z"/>
+                    <path d="M5 10v8M9 10v8M15 10v8M19 10v8"/>
+                    <path d="M3 19h18M2 22h20"/>
+                </svg>
+            </div>
+
+            <div>
+                Portail EDR
+                <small>État des droits réels</small>
+            </div>
+        </a>
+
+        <div class="sp"></div>
+
+        <a class="btn s sm connexion-btn" data-auth="non" href="connexion.html">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/><path d="M10 12v2h4v-2"/></svg>
+            Connexion
+        </a>
+
+        <details class="account" data-for="notaire">
+            <summary>
+                <span class="avatar">MF</span>
+                <span class="who">Me Mariama Fall<small>Notaire</small></span>
+                <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <nav class="account-menu" aria-label="Compte">
+                <a href="profil.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Mon profil</a>
+                <a href="m1.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 12v6"/><path d="M9 15h6"/></svg>Nouvelle demande</a>
+                <a class="out" href="m0.html?role=visiteur"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>Déconnexion</a>
+            </nav>
+        </details>
+
+        <details class="account" data-for="conservateur">
+            <summary>
+                <span class="avatar">MD</span>
+                <span class="who">Moussa Diop<small>Conservateur</small></span>
+                <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <nav class="account-menu" aria-label="Compte">
+                <a href="profil.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Mon profil</a>
+                <a href="m3.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>Demandes du bureau</a>
+                <a class="out" href="m0.html?role=visiteur"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>Déconnexion</a>
+            </nav>
+        </details>
+
+        <details class="account" data-for="administrateur">
+            <summary>
+                <span class="avatar">AB</span>
+                <span class="who">Aïssatou Ba<small>Administrateur</small></span>
+                <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <nav class="account-menu" aria-label="Compte">
+                <a href="profil.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Mon profil</a>
+                <a href="admin.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Administration</a>
+                <a class="out" href="m0.html?role=visiteur"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>Déconnexion</a>
+            </nav>
+        </details>
+
+    </header>
+
+    <main class="page">
+
+        <span class="tag">Espace conservateur</span>
+        <h1>Demandes du bureau</h1>
+        <p class="sub" style="margin-bottom:24px">Demandes affectées au Bureau de Dakar-Plateau.</p>
+
+        <nav class="chips" aria-label="Filtrer par statut">
+            <a class="chip on" href="m3.html">Toutes · 7</a>
+            <a class="chip" href="m3.html?statut=SOUMISE">Soumises · 2</a>
+            <a class="chip" href="m3.html?statut=EN_COURS">En cours · 1</a>
+            <a class="chip" href="m3.html?statut=DISPONIBLE">Disponibles · 1</a>
+            <a class="chip" href="m3.html?statut=CLOTUREE">Clôturées · 3</a>
+        </nav>
+
+        <div class="cols wide">
+
+            <section class="card flush">
+                <div class="table-wrap">
+                    <table class="table">
+                        <thead><tr><th>Référence</th><th>Objet</th><th>Demandeur</th><th>Soumise le</th><th>Statut</th></tr></thead>
+                        <tbody>
+                            <tr class="sel r-497"><td><a href="m3.html#d-000497">EDR-2026-000497</a></td><td>Bien</td><td class="wrap-ok">Awa Ndiaye</td><td>11 nov. 2026</td><td><span class="badge b-sou">Soumise</span></td></tr>
+                            <tr class=""><td><b>EDR-2026-000495</b></td><td>Personne</td><td class="wrap-ok">Me Mariama Fall, notaire</td><td>10 nov. 2026</td><td><span class="badge b-sou">Soumise</span></td></tr>
+                            <tr class="sel r-491"><td><a href="m3.html#d-000491">EDR-2026-000491</a></td><td>Bien</td><td class="wrap-ok">Me Mariama Fall, notaire</td><td>9 nov. 2026</td><td><span class="badge b-enc">En cours</span></td></tr>
+                            <tr class=""><td><b>EDR-2026-000482</b></td><td>Bien</td><td class="wrap-ok">Awa Ndiaye</td><td>3 nov. 2026</td><td><span class="badge b-dis">Disponible</span></td></tr>
+                            <tr class=""><td><b>EDR-2026-000476</b></td><td>Bien</td><td class="wrap-ok">Société Teranga Immo</td><td>30 oct. 2026</td><td><span class="badge b-pay">Payée</span></td></tr>
+                            <tr class=""><td><b>EDR-2026-000471</b></td><td>Personne</td><td class="wrap-ok">Ibrahima Sarr</td><td>28 oct. 2026</td><td><span class="badge b-rej">Rejetée</span></td></tr>
+                            <tr class=""><td><b>EDR-2026-000468</b></td><td>Bien</td><td class="wrap-ok">Fatou Sow</td><td>27 oct. 2026</td><td><span class="badge b-exp">Expirée</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <div>
+
+                <!-- Demande SOUMISE : vérification de la conformité (F6) -->
+
+                <section class="card detail first" id="d-000497">
+                    <div class="card-head">
+                        <h2>EDR-2026-000497</h2>
+                        <span class="badge b-sou">Soumise</span>
+                    </div>
+
+                    <div class="blk">
+                        <h3>Objet</h3>
+                        <dl class="dl one">
+                            <div><dt>Type</dt><dd>Sur un bien</dd></div>
+                            <div><dt>Titre foncier</dt><dd>TF 7810</dd></div>
+                        </dl>
+                    </div>
+
+                    <div class="blk">
+                        <h3>Demandeur</h3>
+                        <dl class="dl one">
+                            <div><dt>Nom</dt><dd>Awa Ndiaye (particulier)</dd></div>
+                            <div><dt>Téléphone</dt><dd>Vérifié par SMS</dd></div>
+                            <div><dt>CNI</dt><dd>Déclarée, non vérifiée</dd></div>
+                        </dl>
+                    </div>
+
+                    <div class="blk">
+                        <h3>Pièces jointes</h3>
+                        <div class="file" style="margin-top:0">
+                            <span class="file-ic"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></span>
+                            <div class="grow"><strong>piece_identite.pdf</strong><small>312 Ko</small></div>
+                        </div>
+                    </div>
+
+                    <form class="blk" style="padding-bottom:0" action="m3.html#d-000491" method="post">
+                        <h3>Vérification de la conformité</h3>
+                        <div class="stack" style="margin-top:0">
+                            <button class="btn p" type="submit" name="decision" value="CONFORME"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Déclarer le dossier conforme</button>
+                            <button class="btn d" type="submit" name="decision" value="REJET" formaction="m3.html">Rejeter la demande</button>
+                        </div>
+                        <p class="hint">Un dossier conforme passe au statut « En cours » et la recherche démarre. Le rejet n'est possible qu'à cette étape ; le demandeur en est notifié.</p>
+                    </form>
+                </section>
+
+                <!-- Demande EN_COURS : résultat, frais et publication (F7, F8) -->
+
+                <section class="card detail" id="d-000491">
+                    <div class="card-head">
+                        <h2>EDR-2026-000491</h2>
+                        <span class="badge b-enc">En cours</span>
+                    </div>
+
+                    <div class="blk">
+                        <h3>Objet</h3>
+                        <dl class="dl one">
+                            <div><dt>Type</dt><dd>Sur un bien</dd></div>
+                            <div><dt>Titre foncier</dt><dd>TF 3307</dd></div>
+                            <div><dt>Demandeur</dt><dd>Me Mariama Fall, notaire</dd></div>
+                        </dl>
+                    </div>
+
+                    <form class="blk" style="padding-bottom:0" action="m3.html" method="post" enctype="multipart/form-data">
+                        <h3>Résultat de la recherche</h3>
+
+                        <div class="stack" style="margin-top:0">
+                            <label class="opt compact"><input type="radio" name="typeResultat" value="ETAT_DROITS_REELS" checked>État des droits réels</label>
+                            <label class="opt compact"><input type="radio" name="typeResultat" value="REQUISITION_NEGATIVE">Réquisition négative</label>
+                        </div>
+
+                        <div class="field">
+                            <label for="tarif">Frais selon la grille tarifaire</label>
+                            <select class="in" id="tarif" name="idTarif" required>
+                                <option>Demande sur un bien · 1 000 FCFA</option>
+                                <option>Demande sur une personne · 1 000 FCFA</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label>Document du résultat</label>
+                            <label class="drop">
+                                <input type="file" name="fichier" accept=".pdf">
+                                <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4"/><path d="m7 8 5-5 5 5"/><path d="M4 21h16"/></svg><br>Déposez le résultat signé ou <b>parcourez votre poste</b><br>PDF uniquement
+                            </label>
+                        </div>
+
+                        <div class="stack">
+                            <button class="btn p" type="submit">Publier le résultat</button>
+                        </div>
+                        <p class="hint">À la publication, la demande passe au statut « Disponible » et le demandeur est notifié. Le résultat reste verrouillé jusqu'au paiement.</p>
+                    </form>
+                </section>
+
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="site-footer">
+        Portail EDR · État des droits réels
+    </footer>
+
+</body>
+
+</html>
