@@ -89,19 +89,37 @@
 
         <a class="back" href="m0.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>Retour à l'accueil</a>
 
-        <form class="card" action="m2.html" method="get">
-            <div class="icon-circle blue" style="margin-bottom:18px"><svg class="ic lg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
-            <h1>Suivre une demande</h1>
-            <p class="sub" style="margin-bottom:24px">Saisissez le code de suivi qui vous a été communiqué lors de la soumission de votre demande.</p>
+        <!-- ÉTAPE 1 : CODE DE SUIVI -->
+        <section id="etape-code">
+            <form class="card" action="suivi-code.html#etape-sms" method="post">
+                <div class="icon-circle blue" style="margin-bottom:18px"><svg class="ic lg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+                <h1>Suivre une demande</h1>
+                <p class="sub" style="margin-bottom:24px">Saisissez le code de suivi qui vous a été communiqué lors de la soumission de votre demande.</p>
+                <label for="reference">Code de suivi</label>
+                <input class="in code" id="reference" name="reference" type="text" placeholder="EDR-2026-K7P4QX" value="EDR-2026-K7P4QX" pattern="EDR-[0-9]{4}-[A-HJKMNP-Za-hjkmnp-z2-9]{6}" required>
+                <p class="hint">Format : EDR, année, puis six caractères (lettres et chiffres). Le code figure sur l'écran de confirmation et dans le SMS reçu après la soumission.</p>
+                <div class="actions">
+                    <button class="btn p block" type="submit">Continuer</button>
+                </div>
+                <p class="hint">Un code de vérification sera envoyé par SMS au numéro déclaré lors de la demande.</p>
+            </form>
+        </section>
 
-            <label for="reference">Code de suivi</label>
-            <input class="in code" id="reference" name="reference" type="text" placeholder="EDR-2026-000482" value="EDR-2026-000482" pattern="EDR-[0-9]{4}-[0-9]{6}" required>
-            <p class="hint">Format : EDR, année, puis six chiffres. Le code figure sur l'écran de confirmation et dans le SMS reçu après la soumission.</p>
-
-            <div class="actions">
-                <button class="btn p block" type="submit">Consulter ma demande</button>
-            </div>
-        </form>
+        <!-- ÉTAPE 2 : VÉRIFICATION PAR SMS -->
+        <section id="etape-sms">
+            <form class="card" action="m2.html" method="post">
+                <div class="icon-circle blue" style="margin-bottom:18px"><svg class="ic lg" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div>
+                <h1>Vérification par SMS</h1>
+                <p class="sub" style="margin-bottom:24px">Saisissez le code à 6 chiffres envoyé au numéro déclaré pour la demande <b>EDR-2026-K7P4QX</b>, se terminant par <b>00 00</b>.</p>
+                <label for="otp">Code de vérification</label>
+                <input class="in code" id="otp" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="000000" required>
+                <p class="hint">Vous n'avez rien reçu ? <a href="suivi-code.html#etape-sms">Renvoyer le code</a></p>
+                <div class="actions">
+                    <button class="btn p block" type="submit">Consulter ma demande</button>
+                </div>
+                <p class="hint">Cette vérification ouvre uniquement cette demande, pour la durée de votre visite. <a href="suivi-code.html">Changer de code de suivi</a></p>
+            </form>
+        </section>
 
         <div class="notice" style="margin-top:23px">
             <div class="info-icon">i</div>

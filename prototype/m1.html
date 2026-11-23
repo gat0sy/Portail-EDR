@@ -131,15 +131,22 @@
                     <div class="grid2 sec">
                         <div class="f-bien">
                             <label for="tf">Numéro du titre foncier</label>
-                            <input class="in" id="tf" name="numeroTitreFoncier" type="text" value="TF 4521">
+                            <input class="in" id="tf" name="numeroTitreFoncier" type="text" value="12.405/NGA" placeholder="12.405/NGA" required>
+                            <p class="hint">Le numéro se termine par le code du livre foncier (NGA, R, TH...).</p>
+                        </div>
+                        <div class="f-bien">
+                            <span class="label">Bureau compétent</span>
+                            <div class="in ph" id="tf-bureau" aria-live="polite">Bureau de Ngor-Almadies</div>
+                            <p class="hint">Déduit automatiquement du numéro du titre foncier.</p>
                         </div>
                         <div class="f-personne">
                             <label for="pers">Personne concernée</label>
                             <input class="in" id="pers" name="personneConcernee" type="text" placeholder="Nom complet de la personne">
                         </div>
-                        <div>
+                        <div class="f-personne">
                             <label for="bureau">Bureau de conservation foncière</label>
-                            <select class="in" id="bureau" name="idBureau" required><option>Bureau de Dakar-Plateau</option><option>Bureau de Grand Dakar</option><option>Bureau de Ngor-Almadies</option><option>Bureau de Pikine</option><option>Bureau de Rufisque</option><option>Bureau de Thiès</option></select>
+                            <select class="in" id="bureau" name="idBureau"><option value="1">Bureau de Dakar-Plateau</option><option value="2">Bureau de Grand Dakar</option><option value="3">Bureau de Ngor-Almadies</option><option value="4">Bureau de Pikine</option><option value="5">Bureau de Rufisque</option><option value="6">Bureau de Thiès</option></select>
+                            <p class="hint">Bureau où la recherche sur la personne sera effectuée.</p>
                         </div>
                     </div>
 

@@ -1,0 +1,21 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><style>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Inter',sans-serif;color:#1d2b2d;width:1500px;padding:24px;background:#fff;font-size:17px}
+.g{display:grid;grid-template-columns:1fr 290px;gap:26px}
+.layer{border:1.5px solid #333;border-radius:10px;padding:14px 16px 16px;margin-bottom:34px;position:relative;background:#fff}
+.layer>h3{font-size:15px;text-transform:uppercase;letter-spacing:.05em;color:#555;margin-bottom:12px}
+.r{display:grid;gap:14px}.r3{grid-template-columns:repeat(3,1fr)}.r4{grid-template-columns:repeat(4,1fr)}.r2{grid-template-columns:repeat(2,1fr)}
+.b{border:1.2px solid #333;border-radius:8px;background:#F4F8F9;padding:12px 14px;text-align:center;font-weight:600}
+.b small{display:block;font-weight:400;font-size:14px;color:#444;margin-top:4px}
+.layer:not(:last-child):after{content:"▼";position:absolute;left:50%;bottom:-29px;transform:translateX(-50%);font-size:18px;color:#333}
+.ext{border:1.5px dashed #333;border-radius:10px;padding:14px 16px;align-self:start;margin-top:316px;position:relative}
+.ext h3{font-size:15px;text-transform:uppercase;letter-spacing:.05em;color:#555;margin-bottom:12px}
+.ext .b{margin-bottom:12px;background:#fff}.ext .b:last-child{margin-bottom:0}
+.ext:before{content:"◄──►";position:absolute;left:-27px;top:50%;font-size:13px;letter-spacing:-2px;background:#fff;color:#333;transform:translate(-50%,-50%);padding:0 2px}
+</style></head><body><div class="g"><div>
+<div class="layer"><h3>Acteurs</h3><div class="r r3"><div class="b">Demandeur<small>Particulier, notaire</small></div><div class="b">Conservateur foncier</div><div class="b">Administrateur</div></div></div>
+<div class="layer"><h3>Interface web</h3><div class="r r3"><div class="b">Espace demandeur<small>Soumission, suivi, paiement, téléchargement</small></div><div class="b">Espace conservateur<small>Vérification, recherche, résultat</small></div><div class="b">Espace administration<small>Utilisateurs, bureaux, livres fonciers, rôles</small></div></div></div>
+<div class="layer"><h3>Logique métier</h3><div class="r r4"><div class="b">Gestion des demandes</div><div class="b">Identification et contrôle d'accès</div><div class="b">Traitement et résultats</div><div class="b">Tarification et paiement</div></div><div class="r r3" style="margin-top:14px"><div class="b">Notification</div><div class="b">Journalisation</div><div class="b">Expiration planifiée</div></div></div>
+<div class="layer"><h3>Données</h3><div class="r r2"><div class="b">Base de données relationnelle<small>Dix tables du modèle logique</small></div><div class="b">Documents<small>Pièces jointes et résultats</small></div></div></div>
+</div>
+<div class="ext"><h3>Services externes</h3><div class="b">Service de paiement</div><div class="b">Service de notification<small>SMS, courriel</small></div></div>
+</div></body></html>

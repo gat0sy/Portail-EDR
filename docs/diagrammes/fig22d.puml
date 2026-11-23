@@ -1,0 +1,61 @@
+@startuml
+!include common.iuml
+left to right direction
+skinparam nodesep 18
+skinparam ranksep 70
+actor "Particulier" as P
+actor "Notaire" as N
+actor "Demandeur" as D
+P --|> D
+N --|> D
+rectangle "Plateforme de demande d'état des droits réels" {
+  rectangle "Demande et suivi" as R1 #FFFFFF {
+    usecase "Soumettre une demande d'EDR" as S1
+    usecase "Fournir les pièces requises" as S2
+    usecase "Vérifier le numéro de téléphone\n(code SMS, particulier)" as S3
+    usecase "Suivre la demande" as S4
+    usecase "Payer les frais" as S5
+    usecase "Télécharger le résultat" as S6
+  }
+  rectangle "Administration" as R3 #FFFFFF {
+    usecase "Gérer les utilisateurs et les rôles" as G1
+    usecase "Gérer les bureaux de conservation\net les livres fonciers" as G2
+    usecase "Affecter les conservateurs" as G3
+  }
+  rectangle "Traitement" as R2 #FFFFFF {
+    usecase "Vérifier la conformité du dossier" as T1
+    usecase "Rejeter la demande" as T2
+    usecase "Rechercher les informations foncières" as T3
+    usecase "Déterminer les frais" as T4
+    usecase "Établir et publier le résultat" as T5
+    usecase "Expirer la demande\n(à l'échéance du délai de paiement)" as X1
+    usecase "Notifier le demandeur" as NO
+  }
+}
+actor "Conservateur\nfoncier" as C
+actor "Administrateur" as A
+actor "<<système>>\nService de paiement" as SP
+actor "<<système>>\nService de notification" as SN
+actor "<<système>>\nHorloge" as H
+G1 <-- A
+G2 <-- A
+G3 <-- A
+D --> S1
+D --> S4
+D --> S5
+D --> S6
+S1 .> S2 : <<include>>
+S3 .> S1 : <<extend>>
+S3 .> S4 : <<extend>>
+S5 --> SP
+T1 <--- C
+T3 <--- C
+T4 <--- C
+T5 <--- C
+T2 .> T1 : <<extend>>
+T2 ..> NO : <<include>>
+T5 ..> NO : <<include>>
+X1 ..> NO : <<include>>
+NO --> SN
+X1 <--- H
+@enduml

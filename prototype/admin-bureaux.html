@@ -89,7 +89,7 @@
 
         <span class="tag">Administration</span>
         <h1>Bureaux de conservation</h1>
-        <p class="sub" style="margin-bottom:24px">Les bureaux reçoivent les demandes et regroupent les conservateurs qui les traitent.</p>
+        <p class="sub" style="margin-bottom:24px">Les bureaux reçoivent les demandes et regroupent les conservateurs qui les traitent. Chaque bureau tient un ou plusieurs livres fonciers : le code du livre, à la fin du numéro d'un titre foncier, permet d'affecter automatiquement une demande portant sur un bien.</p>
 
         <nav class="tabs" aria-label="Administration"><a href="admin.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Tableau de bord</a><a class="on" aria-current="page" href="admin-bureaux.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-5h6v5"/><path d="M9 9h.01M15 9h.01"/><path d="M9 12h.01M15 12h.01"/></svg>Bureaux de conservation</a><a href="admin-profils.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 4.5a4 4 0 0 1 0 7"/><path d="M18 14.5a7 7 0 0 1 4 6.5"/></svg>Profils</a></nav>
 
@@ -98,19 +98,20 @@
                 <div class="card-head"><h2>Bureaux enregistrés · 6</h2></div>
                 <div class="table-wrap">
                     <table class="table">
-                        <thead><tr><th>Bureau</th><th>Téléphone</th><th>Conservateurs</th><th>Demandes en cours</th><th>Actions</th></tr></thead>
+                        <thead><tr><th>Bureau</th><th>Livres fonciers</th><th>Conservateurs</th><th>Demandes en cours</th><th>Actions</th></tr></thead>
                         <tbody>
-                            <tr><td><b>Bureau de Dakar-Plateau</b><small>Dakar</small></td><td>+221 33 000 00 01</td><td>2</td><td>4</td><td><div class="row-actions"><a href="admin-bureaux.html?id=1#formulaire">Modifier</a></div></td></tr>
-                            <tr><td><b>Bureau de Grand Dakar</b><small>Dakar</small></td><td>+221 33 000 00 02</td><td>2</td><td>3</td><td><div class="row-actions"><a href="admin-bureaux.html?id=2#formulaire">Modifier</a></div></td></tr>
-                            <tr><td><b>Bureau de Ngor-Almadies</b><small>Dakar</small></td><td>+221 33 000 00 03</td><td>1</td><td>2</td><td><div class="row-actions"><a href="admin-bureaux.html?id=3#formulaire">Modifier</a></div></td></tr>
-                            <tr><td><b>Bureau de Pikine</b><small>Pikine</small></td><td>+221 33 000 00 04</td><td>1</td><td>1</td><td><div class="row-actions"><a href="admin-bureaux.html?id=4#formulaire">Modifier</a></div></td></tr>
-                            <tr><td><b>Bureau de Rufisque</b><small>Rufisque</small></td><td>+221 33 000 00 05</td><td>1</td><td>1</td><td><div class="row-actions"><a href="admin-bureaux.html?id=5#formulaire">Modifier</a></div></td></tr>
-                            <tr><td><b>Bureau de Thiès</b><small>Thiès</small></td><td>+221 33 000 00 06</td><td>1</td><td>1</td><td><div class="row-actions"><a href="admin-bureaux.html?id=6#formulaire">Modifier</a></div></td></tr>
+                            <tr><td><b>Bureau de Dakar-Plateau</b><small>Dakar</small></td><td><span class="code-tag">DK</span></td><td>2</td><td>4</td><td><div class="row-actions"><a href="admin-bureaux.html?id=1#formulaire">Modifier</a></div></td></tr>
+                            <tr><td><b>Bureau de Grand Dakar</b><small>Dakar</small></td><td><span class="code-tag">GR</span></td><td>2</td><td>3</td><td><div class="row-actions"><a href="admin-bureaux.html?id=2#formulaire">Modifier</a></div></td></tr>
+                            <tr><td><b>Bureau de Ngor-Almadies</b><small>Dakar</small></td><td><span class="code-tag">NGA</span></td><td>1</td><td>2</td><td><div class="row-actions"><a href="admin-bureaux.html?id=3#formulaire">Modifier</a></div></td></tr>
+                            <tr><td><b>Bureau de Pikine</b><small>Pikine</small></td><td><span class="code-tag">DP</span> <span class="code-tag">GW</span></td><td>1</td><td>1</td><td><div class="row-actions"><a href="admin-bureaux.html?id=4#formulaire">Modifier</a></div></td></tr>
+                            <tr><td><b>Bureau de Rufisque</b><small>Rufisque</small></td><td><span class="code-tag">R</span></td><td>1</td><td>1</td><td><div class="row-actions"><a href="admin-bureaux.html?id=5#formulaire">Modifier</a></div></td></tr>
+                            <tr><td><b>Bureau de Thiès</b><small>Thiès</small></td><td><span class="code-tag">TH</span></td><td>1</td><td>1</td><td><div class="row-actions"><a href="admin-bureaux.html?id=6#formulaire">Modifier</a></div></td></tr>
                         </tbody>
                     </table>
                 </div>
             </section>
 
+            <div class="stack">
             <form class="card" id="formulaire" action="admin-bureaux.html" method="post" style="scroll-margin-top:96px">
                 <h2>Ajouter un bureau</h2>
                 <div class="field">
@@ -130,6 +131,28 @@
                 </div>
                 <p class="hint">Les conservateurs sont affectés à un bureau depuis la <a href="admin-profils.html">gestion des profils</a>.</p>
             </form>
+            <form class="card" id="livres" action="admin-bureaux.html" method="post" style="scroll-margin-top:96px">
+                <h2>Ajouter un livre foncier</h2>
+                <div class="grid2">
+                    <div>
+                        <label for="l-code">Code</label>
+                        <input class="in" id="l-code" name="code" type="text" placeholder="NGA" maxlength="4" pattern="[A-Za-z]{1,4}" required>
+                    </div>
+                    <div>
+                        <label for="l-nom">Nom du livre</label>
+                        <input class="in" id="l-nom" name="nom" type="text" placeholder="Ngor-Almadies" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="l-bureau">Bureau qui tient ce livre</label>
+                    <select class="in" id="l-bureau" name="idBureau"><option value="1">Bureau de Dakar-Plateau</option><option value="2">Bureau de Grand Dakar</option><option value="3">Bureau de Ngor-Almadies</option><option value="4">Bureau de Pikine</option><option value="5">Bureau de Rufisque</option><option value="6">Bureau de Thiès</option></select>
+                </div>
+                <div class="actions">
+                    <button class="btn p block" type="submit">Enregistrer le livre</button>
+                </div>
+                <p class="hint">Le code est unique. Codes de démonstration, à vérifier auprès de la Conservation.</p>
+            </form>
+            </div>
         </div>
 
     </main>

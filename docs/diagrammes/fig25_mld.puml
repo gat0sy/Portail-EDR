@@ -1,0 +1,109 @@
+@startuml
+!include common.iuml
+hide circle
+hide methods
+skinparam linetype ortho
+skinparam nodesep 60
+skinparam ranksep 60
+entity BUREAU {
+  <u>idBureau</u>
+  --
+  nom
+  adresse
+  telephone
+}
+entity LIVRE_FONCIER {
+  <u>idLivreFoncier</u>
+  --
+  code (unique)
+  nom
+  #idBureau
+}
+entity UTILISATEUR {
+  <u>idUtilisateur</u>
+  --
+  nom
+  email
+  telephone
+  motDePasse
+  role
+  actif
+  #idBureau (facultatif)
+}
+entity DEMANDE {
+  <u>idDemande</u>
+  --
+  reference
+  type
+  statut
+  numeroTitreFoncier
+  personneConcernee
+  declarantCni
+  declarantNom
+  declarantTelephone
+  telephoneVerifie
+  dateSoumission
+  dateLimitePaiement
+  #idBureau
+  #idUtilisateur (facultatif)
+  #idTarif (facultatif)
+}
+entity PIECE_JOINTE {
+  <u>idPieceJointe</u>
+  --
+  nomFichier
+  chemin
+  #idDemande
+}
+entity RESULTAT {
+  <u>idResultat</u>
+  --
+  type
+  fichier
+  datePublication
+  #idDemande
+}
+entity PAIEMENT {
+  <u>idPaiement</u>
+  --
+  montant
+  modePaiement
+  statut
+  datePaiement
+  #idDemande
+}
+entity TARIF {
+  <u>idTarif</u>
+  --
+  typeDemande
+  montant
+}
+entity NOTIFICATION {
+  <u>idNotification</u>
+  --
+  type
+  dateEnvoi
+  #idDemande
+}
+entity JOURNAL {
+  <u>idJournal</u>
+  --
+  action
+  dateAction
+  #idUtilisateur (facultatif)
+  #idDemande (facultatif)
+}
+BUREAU ||--o{ UTILISATEUR
+BUREAU ||--o{ DEMANDE
+BUREAU ||--o{ LIVRE_FONCIER
+UTILISATEUR |o--o{ DEMANDE
+DEMANDE ||--o{ PIECE_JOINTE
+DEMANDE ||--o| RESULTAT
+DEMANDE ||--o| PAIEMENT
+DEMANDE ||--o{ NOTIFICATION
+UTILISATEUR |o--o{ JOURNAL
+DEMANDE |o--o{ JOURNAL
+TARIF |o-left-o{ DEMANDE
+note top of TARIF : Grille tarifaire. Le tarif est rattaché\nà la demande quand les frais sont déterminés.
+note bottom of JOURNAL : Attribut souligné : clé primaire.\nPréfixe ~# : clé étrangère.
+@enduml

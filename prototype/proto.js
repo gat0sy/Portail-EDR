@@ -35,6 +35,23 @@
             });
         });
 
+        /* Bureau compétent déduit du code du livre foncier (fin du numéro du titre).
+           Prototype uniquement : dans l'application, le service fait cette
+           correspondance à partir de la table LIVRE_FONCIER. Codes provisoires. */
+        var tf = document.getElementById('tf'), out = document.getElementById('tf-bureau');
+        if (tf && out) {
+            var livres = { DK: 'Bureau de Dakar-Plateau', GR: 'Bureau de Grand Dakar', NGA: 'Bureau de Ngor-Almadies',
+                DP: 'Bureau de Pikine', GW: 'Bureau de Pikine', R: 'Bureau de Rufisque', TH: 'Bureau de Thiès' };
+            var majBureau = function () {
+                var m = /^\s*[\d .]+\s*\/\s*([A-Za-z]{1,4})\s*$/.exec(tf.value);
+                var b = m && livres[m[1].toUpperCase()];
+                out.textContent = b || (m ? 'Livre foncier inconnu' : 'Numéro incomplet (ex. 12.405/NGA)');
+                out.classList.toggle('bad', !b);
+            };
+            tf.addEventListener('input', majBureau);
+            majBureau();
+        }
+
         /* Aucun serveur : la soumission d'un formulaire mène à la page suivante. */
         document.querySelectorAll('form').forEach(function (form) {
             form.addEventListener('submit', function (e) {

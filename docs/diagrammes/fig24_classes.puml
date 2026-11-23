@@ -1,0 +1,85 @@
+@startuml
+!include common.iuml
+hide circle
+hide methods
+skinparam nodesep 45
+skinparam ranksep 50
+class Bureau {
+  idBureau
+  nom
+  adresse
+  telephone
+}
+class LivreFoncier {
+  idLivreFoncier
+  code
+  nom
+}
+class Utilisateur {
+  idUtilisateur
+  nom
+  email
+  telephone
+  motDePasse
+  role : Role
+  actif
+}
+class Demande {
+  idDemande
+  reference
+  type : TypeDemande
+  statut : StatutDemande
+  numeroTitreFoncier [0..1]
+  personneConcernee [0..1]
+  declarantCni
+  declarantNom
+  declarantTelephone
+  telephoneVerifie
+  dateSoumission
+  dateLimitePaiement [0..1]
+}
+class PieceJointe {
+  idPieceJointe
+  nomFichier
+  chemin
+}
+class Resultat {
+  idResultat
+  type : TypeResultat
+  fichier
+  datePublication
+}
+class Paiement {
+  idPaiement
+  montant
+  modePaiement : ModePaiement
+  statut : StatutPaiement
+  datePaiement
+}
+class Tarif {
+  idTarif
+  typeDemande : TypeDemande
+  montant
+}
+class Notification {
+  idNotification
+  type : TypeNotification
+  dateEnvoi
+}
+class Journal {
+  idJournal
+  action
+  dateAction
+}
+Bureau "0..1" <-- "*" Utilisateur : est affecté à
+Bureau "1" <-- "*" Demande : est affectée à
+Bureau "1" -- "0..*" LivreFoncier : tient
+Utilisateur "0..1" <-- "*" Demande : soumet (notaire)
+Demande "1" *-- "*" PieceJointe
+Demande "1" --> "0..1" Resultat : produit
+Demande "1" --> "0..1" Paiement : est réglée par
+Demande "1" --> "*" Notification : génère
+Utilisateur "0..1" <-- "*" Journal : trace
+Demande "0..1" <-- "*" Journal : trace
+Demande "*" -right-> "0..1" Tarif : est tarifée selon
+@enduml

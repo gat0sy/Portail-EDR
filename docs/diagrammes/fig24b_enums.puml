@@ -1,0 +1,50 @@
+@startuml
+!include common.iuml
+hide circle
+hide methods
+skinparam nodesep 25
+enum Role {
+  NOTAIRE
+  CONSERVATEUR
+  ADMINISTRATEUR
+}
+enum TypeDemande {
+  BIEN
+  PERSONNE
+}
+enum StatutDemande {
+  SOUMISE
+  EN_COURS
+  REJETEE
+  DISPONIBLE
+  PAYEE
+  EXPIREE
+}
+enum TypeResultat {
+  ETAT_DROITS_REELS
+  REQUISITION_NEGATIVE
+}
+enum ModePaiement {
+  WAVE
+  ORANGE_MONEY
+  CARTE_BANCAIRE
+}
+enum StatutPaiement {
+  INITIE
+  CONFIRME
+  ECHEC
+}
+enum TypeNotification {
+  CODE_VERIFICATION
+  REJET
+  DISPONIBILITE
+  PAIEMENT
+  EXPIRATION
+}
+Role -[hidden]right- TypeDemande
+TypeDemande -[hidden]right- StatutDemande
+StatutDemande -[hidden]right- TypeResultat
+TypeResultat -[hidden]right- ModePaiement
+ModePaiement -[hidden]right- StatutPaiement
+StatutPaiement -[hidden]right- TypeNotification
+@enduml
