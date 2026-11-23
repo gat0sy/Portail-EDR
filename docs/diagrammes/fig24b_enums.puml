@@ -2,7 +2,7 @@
 !include common.iuml
 hide circle
 hide methods
-skinparam nodesep 25
+skinparam nodesep 16
 enum Role {
   NOTAIRE
   CONSERVATEUR
@@ -11,6 +11,11 @@ enum Role {
 enum TypeDemande {
   BIEN
   PERSONNE
+}
+enum TypePiece {
+  CNI_RECTO
+  CNI_VERSO
+  COPIE_TITRE_FONCIER
 }
 enum StatutDemande {
   SOUMISE
@@ -42,7 +47,8 @@ enum TypeNotification {
   EXPIRATION
 }
 Role -[hidden]right- TypeDemande
-TypeDemande -[hidden]right- StatutDemande
+TypeDemande -[hidden]right- TypePiece
+TypePiece -[hidden]right- StatutDemande
 StatutDemande -[hidden]right- TypeResultat
 TypeResultat -[hidden]right- ModePaiement
 ModePaiement -[hidden]right- StatutPaiement

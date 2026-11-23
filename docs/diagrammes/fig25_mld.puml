@@ -51,6 +51,7 @@ entity DEMANDE {
 entity PIECE_JOINTE {
   <u>idPieceJointe</u>
   --
+  type
   nomFichier
   chemin
   #idDemande

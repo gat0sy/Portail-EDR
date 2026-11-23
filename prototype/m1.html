@@ -179,14 +179,31 @@
 
                     <div class="sec">
                         <h2>Pièces requises</h2>
-                        <label class="drop">
-                            <input type="file" name="pieces" accept=".pdf,.jpg,.jpeg,.png" multiple>
-                            Glissez vos fichiers ici ou <b>parcourez votre appareil</b><br>PDF, JPG ou PNG
-                        </label>
-                        <div class="file">
-                            <span class="file-ic"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></span>
-                            <div class="grow"><strong>piece_identite.pdf</strong><small>312 Ko · ajouté</small></div>
+                        <div class="grid2" data-auth="non">
+                            <div>
+                                <span class="label">Carte nationale d'identité, recto</span>
+                                <label class="drop">
+                                    <input type="file" name="cniRecto" accept=".jpg,.jpeg,.png" required>
+                                    <b>Ajouter une photo</b><br>JPG ou PNG, 5 Mo maximum
+                                </label>
+                            </div>
+                            <div>
+                                <span class="label">Carte nationale d'identité, verso</span>
+                                <label class="drop">
+                                    <input type="file" name="cniVerso" accept=".jpg,.jpeg,.png" required>
+                                    <b>Ajouter une photo</b><br>JPG ou PNG, 5 Mo maximum
+                                </label>
+                            </div>
                         </div>
+                        <div class="field f-bien">
+                            <span class="label">Copie du titre foncier</span>
+                            <label class="drop">
+                                <input type="file" name="copieTitreFoncier" accept=".pdf,.jpg,.jpeg,.png">
+                                <b>Ajouter la copie</b><br>PDF, JPG ou PNG, 5 Mo maximum
+                            </label>
+                        </div>
+                        <p class="hint" data-auth="non">Les photos de votre CNI ne sont visibles que par le conservateur du bureau compétent et sont supprimées après la clôture de la demande.</p>
+                        <p class="hint f-personne" data-for="notaire">Aucune pièce n'est requise pour une demande portant sur une personne.</p>
                     </div>
 
                     <div class="actions" data-auth="non">
@@ -241,7 +258,7 @@
                 <p class="hint">Vous n'avez rien reçu ? <a href="m1.html#etape-verification">Renvoyer le code</a></p>
                 <div class="actions">
                     <button class="btn p" type="submit">Valider et soumettre</button>
-                    <a class="btn s" href="m1.html">Modifier la demande</a>
+                    <a class="btn s" href="m1.html">Précédent</a>
                 </div>
             </form>
 
