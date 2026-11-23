@@ -94,6 +94,7 @@
         <nav class="tabs" aria-label="Administration"><a href="admin.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Tableau de bord</a><a class="on" aria-current="page" href="admin-bureaux.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-5h6v5"/><path d="M9 9h.01M15 9h.01"/><path d="M9 12h.01M15 12h.01"/></svg>Bureaux de conservation</a><a href="admin-profils.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 4.5a4 4 0 0 1 0 7"/><path d="M18 14.5a7 7 0 0 1 4 6.5"/></svg>Profils</a></nav>
 
         <div class="cols">
+            <div>
             <section class="card flush">
                 <div class="card-head"><h2>Bureaux enregistrés · 6</h2></div>
                 <div class="table-wrap">
@@ -110,6 +111,25 @@
                     </table>
                 </div>
             </section>
+            <section class="card flush" id="liste-livres" style="margin-top:23px">
+                <div class="card-head"><h2>Livres fonciers · 7</h2></div>
+                <div class="table-wrap">
+                    <table class="table">
+                        <thead><tr><th>Code</th><th>Livre foncier</th><th>Bureau qui le tient</th><th>Actions</th></tr></thead>
+                        <tbody>
+                            <tr><td><span class="code-tag">DK</span></td><td>Dakar</td><td>Bureau de Dakar-Plateau</td><td><div class="row-actions"><a href="admin-bureaux.html#livres">Modifier</a><a class="danger" href="admin-bureaux.html">Supprimer</a></div></td></tr>
+                            <tr><td><span class="code-tag">GR</span></td><td>Grand Dakar</td><td>Bureau de Grand Dakar</td><td><div class="row-actions"><a href="admin-bureaux.html#livres">Modifier</a><a class="danger" href="admin-bureaux.html">Supprimer</a></div></td></tr>
+                            <tr><td><span class="code-tag">NGA</span></td><td>Ngor-Almadies</td><td>Bureau de Ngor-Almadies</td><td><div class="row-actions"><a href="admin-bureaux.html#livres">Modifier</a><a class="danger" href="admin-bureaux.html">Supprimer</a></div></td></tr>
+                            <tr><td><span class="code-tag">DP</span></td><td>Dagoudane Pikine</td><td>Bureau de Pikine</td><td><div class="row-actions"><a href="admin-bureaux.html#livres">Modifier</a><a class="danger" href="admin-bureaux.html">Supprimer</a></div></td></tr>
+                            <tr><td><span class="code-tag">GW</span></td><td>Guédiawaye</td><td>Bureau de Pikine</td><td><div class="row-actions"><a href="admin-bureaux.html#livres">Modifier</a><a class="danger" href="admin-bureaux.html">Supprimer</a></div></td></tr>
+                            <tr><td><span class="code-tag">R</span></td><td>Rufisque</td><td>Bureau de Rufisque</td><td><div class="row-actions"><a href="admin-bureaux.html#livres">Modifier</a><a class="danger" href="admin-bureaux.html">Supprimer</a></div></td></tr>
+                            <tr><td><span class="code-tag">TH</span></td><td>Thiès</td><td>Bureau de Thiès</td><td><div class="row-actions"><a href="admin-bureaux.html#livres">Modifier</a><a class="danger" href="admin-bureaux.html">Supprimer</a></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="hint" style="padding:0 27px 22px">Le code termine le numéro du titre foncier (12.405/NGA) et désigne le bureau compétent. Codes de démonstration, à vérifier auprès de la Conservation. Un livre rattaché à des demandes ne peut pas être supprimé.</p>
+            </section>
+            </div>
 
             <div class="stack">
             <form class="card" id="formulaire" action="admin-bureaux.html" method="post" style="scroll-margin-top:96px">
