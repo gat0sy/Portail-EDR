@@ -186,6 +186,14 @@ class SchemaConstraintsTest {
         void notaireSansBureauAccepte() {
             assertThatCode(() -> inserer("utilisateur", utilisateur("NOTAIRE", null))).doesNotThrowAnyException();
         }
+
+        @Test
+        void adresseEMailDejaUtiliseeRefuseeSansTenirCompteDeLaCasse() {
+            // l'adresse e-mail sert d'identifiant de connexion (V3)
+            inserer("utilisateur", avec(utilisateur("NOTAIRE", null), "email", "ndiaye@example.sn"));
+            refuseePar("uq_utilisateur_email",
+                    () -> inserer("utilisateur", avec(utilisateur("NOTAIRE", null), "email", "NDiaye@Example.SN")));
+        }
     }
 
     // ---------------------------------------------------------------- tarif

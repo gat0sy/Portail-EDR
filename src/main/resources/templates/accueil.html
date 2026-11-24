@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Accueil · Portail EDR</title>
+
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/accueil.css}">
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+</head>
+
+<body>
+
+    <header th:replace="~{fragments :: entete}"></header>
+
+    <main class="home-wrap">
+
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <span class="hero-tag">
+                Service en ligne
+            </span>
+
+            <h1>
+                Vos démarches,
+                simplement.
+            </h1>
+
+            <p>
+                Accédez aux services de demande et de suivi
+                de votre état des droits réels.
+                Effectuez vos démarches en ligne et suivez
+                l'évolution de votre dossier en toute simplicité.
+            </p>
+
+        </section>
+
+
+
+        <!-- MAIN SERVICES -->
+
+        <section class="services" aria-label="Services disponibles">
+
+
+            <!-- NEW REQUEST -->
+
+            <a class="service-card service-request" th:href="@{/demandes/nouvelle}">
+
+                <div class="service-icon">
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+
+                        <path d="M14 2v6h6" />
+
+                        <path d="M12 12v6" />
+
+                        <path d="M9 15h6" />
+
+                    </svg>
+
+                </div>
+
+
+                <h2>
+                    Nouvelle demande
+                </h2>
+
+                <p>
+                    Effectuez une nouvelle demande
+                    d'état des droits réels sur un bien
+                    ou sur une personne.
+                </p>
+
+
+                <div class="service-action">
+                    Commencer une demande
+                    <span>→</span>
+                </div>
+
+            </a>
+
+
+
+            <!-- TRACK REQUEST -->
+
+            <a class="service-card service-tracking" th:href="@{/suivi}">
+
+                <div class="service-icon">
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                        <circle cx="11" cy="11" r="8" />
+
+                        <path d="m21 21-4.35-4.35" />
+
+                        <path d="M8 11h6" />
+
+                        <path d="M8 8h6" />
+
+                    </svg>
+
+                </div>
+
+
+                <h2>
+                    Suivre une demande
+                </h2>
+
+                <p>
+                    Consultez l'état d'avancement
+                    de votre dossier à l'aide
+                    de vos informations de suivi.
+                </p>
+
+
+                <div class="service-action">
+                    Consulter mon dossier
+                    <span>→</span>
+                </div>
+
+            </a>
+
+
+
+            <!-- PROFESSIONAL SPACE -->
+
+            <a class="service-card service-directory" th:href="@{/annuaire}">
+
+                <div class="service-icon">
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                        <path d="M3 21h18" />
+                        <path d="M5 21V7l7-4 7 4v14" />
+                        <path d="M9 21v-5h6v5" />
+                        <path d="M9 9h.01M15 9h.01" />
+                        <path d="M9 12h.01M15 12h.01" />
+
+                    </svg>
+
+                </div>
+
+                <h2>Annuaire</h2>
+
+                <p>
+                    Consultez la liste des conservations foncières
+                    et des livres fonciers qu'elles tiennent.
+                </p>
+
+                <div class="service-action">
+                    Consulter l'annuaire
+                    <span>→</span>
+                </div>
+
+            </a>
+
+
+        </section>
+
+
+
+        <!-- HOW IT WORKS -->
+
+        <section class="process-section">
+
+            <div class="section-heading">
+
+                <h2>
+                    Comment ça marche ?
+                </h2>
+
+                <p>
+                    Les principales étapes de traitement
+                    de votre demande.
+                </p>
+
+            </div>
+
+
+            <div class="process-card">
+
+                <div class="process-grid">
+
+
+                    <!-- STEP 1: SUBMISSION -->
+
+                    <div class="process-step">
+
+                        <div class="process-visual">
+
+                            <div class="process-icon">
+
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                    <path d="M14 2v6h6" />
+                                    <path d="M9 13h6" />
+                                    <path d="M9 17h6" />
+
+                                </svg>
+
+                            </div>
+
+                            <div class="process-number">01</div>
+
+                        </div>
+
+                        <div class="process-copy">
+
+                            <h3>Soumission</h3>
+
+                            <p>
+                                Formulaire, pièces justificatives
+                                et vérification du numéro.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- STEP 2: VERIFICATION -->
+
+                    <div class="process-step">
+
+                        <div class="process-visual">
+
+                            <div class="process-icon">
+
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                                    <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z" />
+                                    <path d="m9 12 2 2 4-4" />
+
+                                </svg>
+
+                            </div>
+
+                            <div class="process-number">02</div>
+
+                        </div>
+
+                        <div class="process-copy">
+
+                            <h3>Vérification</h3>
+
+                            <p>
+                                Examen du dossier par le
+                                conservateur compétent.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- STEP 3: NOTIFICATION -->
+
+                    <div class="process-step">
+
+                        <div class="process-visual">
+
+                            <div class="process-icon">
+
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                                    <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9z" />
+
+                                    <path d="M10 21h4" />
+
+                                    <path d="M2 5 1 3" />
+                                    <path d="M22 5l1-2" />
+
+                                </svg>
+
+                            </div>
+
+                            <div class="process-number">03</div>
+
+                        </div>
+
+                        <div class="process-copy">
+
+                            <h3>Notification</h3>
+
+                            <p>
+                                Vous êtes informé par SMS
+                                de la disponibilité du résultat.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- STEP 4: DOWNLOAD -->
+
+                    <div class="process-step">
+
+                        <div class="process-visual">
+
+                            <div class="process-icon">
+
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                    <path d="M14 2v6h6" />
+                                    <path d="M12 12v6" />
+                                    <path d="m9 15 3 3 3-3" />
+
+                                </svg>
+
+                            </div>
+
+                            <div class="process-number">04</div>
+
+                        </div>
+
+                        <div class="process-copy">
+
+                            <h3>Paiement et téléchargement</h3>
+
+                            <p>
+                                Le résultat est téléchargeable
+                                après paiement.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- PRACTICAL INFORMATION -->
+
+        <section class="info-section">
+
+            <div class="info-icon">
+                i
+            </div>
+
+            <div>
+
+                <strong>
+                    Informations sur les frais
+                </strong>
+
+                <p>
+                    Les frais sont déterminés par la Conservation
+                    selon la grille tarifaire applicable et sont
+                    affichés avant le paiement.
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+    <footer th:replace="~{fragments :: pied-accueil}"></footer>
+
+</body>
+
+</html>

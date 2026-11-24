@@ -1,0 +1,44 @@
+/* =========================================================
+   Ajouts de l'application au style du prototype.
+   base.css est une copie a l'identique de prototype/base.css :
+   les seuls styles nouveaux sont ici.
+   ========================================================= */
+
+/* La deconnexion est un formulaire POST (protection CSRF) et non plus un lien :
+   le bouton reprend l'apparence du lien .account-menu a.out du prototype. */
+.account-menu form {
+    margin: 0;
+}
+
+.account-menu button.out {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+    padding: 10px 12px;
+    background: none;
+    border: 0;
+    border-top: 1px solid var(--line);
+    border-radius: 0 0 9px 9px;
+    color: var(--bad);
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.account-menu button.out:hover {
+    background: var(--ps2);
+}
+
+/* Message d'erreur : meme forme que .notice, couleurs d'erreur. */
+.notice.erreur {
+    background: var(--badbg);
+    border-color: #F3D3D0;
+    border-left-color: var(--bad);
+}
+
+.notice.erreur .info-icon {
+    background: #F7DAD7;
+    color: var(--bad);
+}

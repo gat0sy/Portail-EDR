@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mon profil · Portail EDR</title>
+
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+</head>
+
+<body>
+
+    <header th:replace="~{fragments :: entete}"></header>
+
+    <main class="page">
+
+        <div class="page-head">
+            <div>
+                <h1>Mon profil</h1>
+                <p class="sub">Vos informations personnelles et les paramètres de votre compte.</p>
+            </div>
+            <a class="btn p" sec:authorize="hasRole('NOTAIRE')" th:href="@{/demandes/nouvelle}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 12v6"/><path d="M9 15h6"/></svg>Nouvelle demande</a>
+            <a class="btn p" sec:authorize="hasRole('CONSERVATEUR')" th:href="@{/conservateur/demandes}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>Demandes du bureau</a>
+            <a class="btn p" sec:authorize="hasRole('ADMINISTRATEUR')" th:href="@{/admin}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Administration</a>
+        </div>
+
+        <div class="cols">
+            <div class="stack">
+
+                <!-- Le prototype avait une carte par role ; une seule carte, remplie avec le compte connecte. -->
+                <section class="card">
+                    <div class="card-head">
+                        <h2>Informations personnelles</h2>
+                        <span class="badge b-pay">Compte actif</span>
+                    </div>
+                    <dl class="dl">
+                        <div><dt>Nom complet</dt><dd th:text="${profil.nom}">Me Mariama Fall</dd></div>
+                        <div><dt>Rôle</dt><dd th:text="${profil.roleLibelle}">Notaire</dd></div>
+                        <div><dt>Adresse e-mail</dt><dd th:text="${profil.email}">m.fall@exemple.sn</dd></div>
+                        <div><dt>Téléphone</dt><dd th:text="${profil.telephone}">+221 33 000 01 01</dd></div>
+                        <div>
+                            <dt th:text="${profil.libelleBureau}">Bureau d'affectation</dt>
+                            <dd th:text="${profil.bureau} ?: 'Aucun'">Aucun</dd>
+                        </div>
+                    </dl>
+                    <p class="hint" style="margin-top:20px">Ces informations sont gérées par l'administrateur de la plateforme. Adressez-vous à lui pour toute modification.</p>
+                </section>
+
+                <!-- La liste est remplie dans la tranche 5, quand le notaire pourra deposer des demandes. -->
+                <section class="card flush" sec:authorize="hasRole('NOTAIRE')">
+                    <div class="card-head">
+                        <h2>Mes dernières demandes</h2>
+                    </div>
+                    <p class="hint" style="padding:0 27px 22px">Aucune demande pour le moment.</p>
+                </section>
+            </div>
+
+            <!-- Le formulaire de changement de mot de passe du prototype n'est pas encore porte : voir le rapport de la tranche 2. -->
+            <section class="card">
+                <h2>Sécurité du compte</h2>
+                <p class="hint">En cas d'oubli du mot de passe, adressez-vous à l'administrateur de la plateforme.</p>
+                <form class="blk" style="margin-top:24px;padding-bottom:0" th:action="@{/deconnexion}" method="post">
+                    <button class="btn d block" type="submit"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>Déconnexion</button>
+                </form>
+            </section>
+        </div>
+
+    </main>
+
+    <footer th:replace="~{fragments :: pied}"></footer>
+
+</body>
+
+</html>

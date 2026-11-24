@@ -15,6 +15,24 @@ docker compose up -d        # démarre PostgreSQL 18
 
 L'état de l'application est visible sur http://localhost:8080/actuator/health.
 
+### Comptes de démonstration (profil dev)
+
+Pour disposer d'un compte par rôle en local, démarrer avec le profil `dev` :
+
+```bash
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
+Trois comptes **fictifs** sont alors créés s'ils n'existent pas (mot de passe : `demo-edr-2026`, défini dans `application-dev.properties`) :
+
+| Rôle | Adresse e-mail |
+|---|---|
+| Notaire | m.fall@exemple.sn |
+| Conservateur (Bureau de Dakar-Plateau) | m.diop@exemple.sn |
+| Administrateur | a.ba@exemple.sn |
+
+Ce profil ne doit jamais être activé en production : hors du profil `dev`, aucun compte de démonstration n'est créé.
+
 Tests (Docker doit tourner, une base PostgreSQL jetable est créée par Testcontainers) :
 
 ```bash
