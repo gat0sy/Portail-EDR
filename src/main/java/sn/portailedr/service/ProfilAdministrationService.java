@@ -86,6 +86,15 @@ public class ProfilAdministrationService {
     @Transactional
     public void modifier(Long idCompte, ProfilFormulaire formulaire, String emailActeur) {
         Utilisateur compte = trouver(idCompte);
+        Utilisateur administrateur = acteur(emailActeur);
+        if (compte.getRole() != formulaire.getRole()) {
+            if (administrateur.getId().equals(idCompte)) {
+                throw new RegleMetierException("Vous ne pouvez pas modifier votre propre rôle.", "role");
+            }
+            if (estDernierAdministrateurActif(compte)) {
+                throw new RegleMetierException("Impossible de retirer le rôle du dernier administrateur actif.", "role");
+            }
+        }
         verifierEmailLibre(formulaire.getEmail(), idCompte);
         Bureau bureau = bureauDuFormulaire(formulaire);
 
@@ -101,7 +110,6 @@ public class ProfilAdministrationService {
         compte.setRole(formulaire.getRole());
         compte.setBureau(bureau);
 
-        Utilisateur administrateur = acteur(emailActeur);
         if (informationsModifiees) {
             journal.journaliser("Modification du profil " + compte.getNom(), administrateur, null);
         }
@@ -119,7 +127,10 @@ public class ProfilAdministrationService {
         journal.journaliser("Réinitialisation du mot de passe de " + compte.getNom(), acteur(emailActeur), null);
     }
 
-    /** Un administrateur ne peut pas desactiver son propre compte (il perdrait l'acces sur-le-champ). */
+    /**
+     * Un administrateur ne peut pas desactiver son propre compte (il perdrait l'acces sur-le-champ),
+     * ni le dernier administrateur actif (plus personne ne pourrait administrer la plateforme).
+     */
     @Transactional
     public void desactiver(Long idCompte, String emailActeur) {
         Utilisateur administrateur = acteur(emailActeur);
@@ -127,6 +138,9 @@ public class ProfilAdministrationService {
             throw new RegleMetierException("Vous ne pouvez pas désactiver votre propre compte.");
         }
         Utilisateur compte = trouver(idCompte);
+        if (estDernierAdministrateurActif(compte)) {
+            throw new RegleMetierException("Impossible de désactiver le dernier administrateur actif.");
+        }
         compte.setActif(false);
         journal.journaliser("Désactivation du compte de " + compte.getNom(), administrateur, null);
     }
@@ -139,6 +153,12 @@ public class ProfilAdministrationService {
     }
 
     // ---------------------------------------------------------------- regles
+
+    /** Il doit toujours rester au moins un administrateur actif. */
+    private boolean estDernierAdministrateurActif(Utilisateur compte) {
+        return compte.getRole() == Role.ADMINISTRATEUR && compte.isActif()
+                && utilisateurs.countByRoleAndActifTrue(Role.ADMINISTRATEUR) <= 1;
+    }
 
     private void verifierEmailLibre(String email, Long idCompteModifie) {
         utilisateurs.findByEmailIgnoreCase(email.trim())

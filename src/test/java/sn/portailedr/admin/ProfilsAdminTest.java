@@ -284,4 +284,68 @@ class ProfilsAdminTest {
         assertThat(utilisateurs.findById(admin.getId()).orElseThrow().isActif()).isTrue();
         assertThat(journal()).isEmpty();
     }
+
+    // ---------------------------------------------------------------- son propre role
+
+    private MvcTestResult modifierSoiMeme(String nom, String role) {
+        return mvc.post().uri("/admin/profils/{id}", admin.getId()).with(user(compteAdmin)).with(csrf())
+                .param("nom", nom).param("email", "admin@test.sn").param("telephone", "+221 77 000 00 00")
+                .param("role", role).param("idBureau", "")
+                .exchange();
+    }
+
+    @Test
+    void unAdministrateurNePeutPasModifierSonPropreRole() {
+        comptes.notaire();
+        MvcTestResult resultat = modifierSoiMeme("Test Administrateur", "NOTAIRE");
+
+        assertThat(resultat).hasStatusOk().bodyText().contains("Vous ne pouvez pas modifier votre propre rôle.");
+        assertThat(utilisateurs.findById(admin.getId()).orElseThrow().getRole()).isEqualTo(Role.ADMINISTRATEUR);
+        assertThat(journal()).isEmpty();
+    }
+
+    @Test
+    void unAdministrateurPeutModifierSesInformationsSansChangerDeRole() {
+        MvcTestResult resultat = modifierSoiMeme("Test Administrateur Ba", "ADMINISTRATEUR");
+
+        assertThat(redirection(resultat)).isEqualTo("/admin/profils");
+        assertThat(utilisateurs.findById(admin.getId()).orElseThrow().getNom()).isEqualTo("Test Administrateur Ba");
+        assertThat(journal()).containsExactly("Modification du profil Test Administrateur Ba");
+    }
+
+    // ---------------------------------------------------------------- un autre administrateur
+
+    @Test
+    void unAdministrateurPeutDesactiverUnAutreAdministrateurActif() {
+        // deux administrateurs actifs : la regle du dernier administrateur ne s'applique pas
+        Utilisateur autre = utilisateurs.save(new Utilisateur("Autre Administrateur", "autre.admin@test.sn",
+                "+221 77 000 00 12", encodeur.encode(ComptesDeTest.MOT_DE_PASSE), Role.ADMINISTRATEUR, null));
+
+        mvc.post().uri("/admin/profils/{id}/desactivation", autre.getId()).with(user(compteAdmin)).with(csrf()).exchange();
+
+        assertThat(utilisateurs.findById(autre.getId()).orElseThrow().isActif()).isFalse();
+        assertThat(journal()).containsExactly("Désactivation du compte de Autre Administrateur");
+    }
+
+    // ---------------------------------------------------------------- refus qui arrive jusqu'au controleur
+
+    @Test
+    void reinitialiserLeMotDePasseDUnCompteInconnuAfficheLeMessageEtNonUneErreur500() {
+        MvcTestResult resultat = mvc.post().uri("/admin/profils/{id}/mot-de-passe", 999_999)
+                .with(user(compteAdmin)).with(csrf()).param("nouveauMotDePasse", "nouveau-provisoire").exchange();
+
+        assertThat(redirection(resultat)).isEqualTo("/admin/profils");
+        assertThat(resultat).flash().containsEntry("erreur", "Compte introuvable.");
+        assertThat(journal()).isEmpty();
+    }
+
+    @Test
+    void unMotDePasseInvalidePourUnCompteInconnuAfficheAussiLeMessage() {
+        // ici le refus vient de la relecture du formulaire du compte, avant meme le service d'action
+        MvcTestResult resultat = mvc.post().uri("/admin/profils/{id}/mot-de-passe", 999_999)
+                .with(user(compteAdmin)).with(csrf()).param("nouveauMotDePasse", "court").exchange();
+
+        assertThat(redirection(resultat)).isEqualTo("/admin/profils");
+        assertThat(resultat).flash().containsEntry("erreur", "Compte introuvable.");
+    }
 }

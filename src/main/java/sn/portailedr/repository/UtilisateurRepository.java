@@ -19,6 +19,8 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Long> 
 
     long countByRole(Role role);
 
+    long countByRoleAndActifTrue(Role role);
+
     long countByBureauIdAndRole(Long idBureau, Role role);
 
     boolean existsByBureauId(Long idBureau);
