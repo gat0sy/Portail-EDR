@@ -1,0 +1,21 @@
+@startuml
+!include common.iuml
+left to right direction
+actor "Demandeur" as D
+actor "Conservateur\nfoncier" as C
+rectangle "Processus existant de demande d'état des droits réels" {
+  usecase "Demande EDR - bien" as U1
+  usecase "Demande EDR - pers" as U2
+  usecase "Dépôt de la réquisition" as U3
+  usecase "Recherche registre" as U4
+  usecase "Délivrance de l'état\ndes droits réels" as U5
+  usecase "Délivrance d'une\nréquisition négative" as U6
+}
+D -- U1
+D -- U2
+U1 ..> U3 : <<include>>
+U2 ..> U3 : <<include>>
+U4 -- C
+U5 -- C
+U6 ..> U4 : <<extend>>
+@enduml

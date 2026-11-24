@@ -1,0 +1,53 @@
+@startuml
+!include common.iuml
+|Demandeur|
+start
+:Renseigner la demande\net joindre les pièces;
+:Soumettre la demande;
+|Plateforme|
+if (Demandeur authentifié\n(notaire) ?) then (non)
+  repeat
+    :Envoyer un code de\nvérification par SMS;
+    |Demandeur|
+    :Saisir le code;
+    |Plateforme|
+  repeat while (Code correct ?) is (non) not (oui)
+else (oui)
+endif
+:Enregistrer la demande et l'affecter\nau bureau compétent\n[SOUMISE];
+|Conservateur foncier|
+:Vérifier la conformité du dossier;
+if (Dossier conforme ?) then (non)
+  :Rejeter la demande;
+  |Plateforme|
+  :Notifier le rejet\n[REJETEE];
+  stop
+else (oui)
+  |Conservateur foncier|
+  :Déclarer le dossier conforme\n[EN_COURS];
+endif
+|Conservateur foncier|
+:Rechercher les informations foncières;
+if (Droits réels constatés ?) then (oui)
+  :Établir l'état des droits réels;
+else (non)
+  :Établir la réquisition négative;
+endif
+:Déterminer les frais\n(grille tarifaire);
+:Publier le résultat;
+|Plateforme|
+:Notifier la disponibilité\n[DISPONIBLE];
+if (Paiement effectué\ndans le délai ?) then (oui)
+  |Demandeur|
+  :Effectuer le paiement;
+  |Plateforme|
+  :Enregistrer la confirmation\ndu service de paiement\n[PAYEE];
+  |Demandeur|
+  :Télécharger le résultat;
+  stop
+else (non)
+  |Plateforme|
+  :Déclarer la demande expirée\net notifier le demandeur\n[EXPIREE];
+  stop
+endif
+@enduml
