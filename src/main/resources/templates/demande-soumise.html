@@ -18,7 +18,8 @@
     <!--
         Le prototype choisissait les blocs par role (data-for / data-auth). Ici, c'est la demande qui
         decide : celle d'un notaire ou celle d'un particulier (confirmation.notaire).
-        Le bouton "Suivre cette demande" du prototype arrive avec le suivi (tranche 6).
+        "Suivre cette demande" : le notaire va directement au suivi ; le particulier passe par la saisie
+        du code (pre-remplie) puis par le code SMS.
     -->
     <main class="page medium" th:with="c=${confirmation}">
 
@@ -50,7 +51,9 @@
             </div>
 
             <div class="actions" style="justify-content:center">
-                <a class="btn p" th:href="@{/demandes/nouvelle}">Nouvelle demande</a>
+                <a class="btn p" th:if="${c.notaire}" th:href="@{/suivi/{r}(r=${c.reference})}">Suivre cette demande</a>
+                <a class="btn p" th:unless="${c.notaire}" th:href="@{/suivi(reference=${c.reference})}">Suivre cette demande</a>
+                <a class="btn s" th:href="@{/demandes/nouvelle}">Nouvelle demande</a>
                 <a class="btn s" th:if="${c.notaire}" th:href="@{/profil}">Retour à mon profil</a>
                 <a class="btn s" th:unless="${c.notaire}" th:href="@{/}">Retour à l'accueil</a>
             </div>

@@ -170,8 +170,8 @@ class SoumissionNotaireTest {
                 .contains("Mes dernières demandes", surUnBien, surUnePersonne)
                 .contains("Bien · 2082/R", "Personne", "Soumise")
                 .doesNotContain("Aucune demande pour le moment.")
-                // pas encore de lien : le suivi arrive dans la tranche 6
-                .doesNotContain("href=\"/suivi");
+                // tranche 6 : chaque demande mene a son suivi
+                .contains("href=\"/suivi/" + surUnBien + "\"", "href=\"/suivi/" + surUnePersonne + "\"");
     }
 
     @Test

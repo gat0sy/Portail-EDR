@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Suivre une demande · Portail EDR</title>
+
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+</head>
+
+<body>
+
+    <header th:replace="~{fragments :: entete}"></header>
+
+    <!-- Etape 1 de suivi-code.html (#etape-code). L'etape SMS est une page a part : suivi-verification.html. -->
+    <main class="page narrow">
+
+        <a class="back" th:href="@{/}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>Retour à l'accueil</a>
+
+        <section>
+            <th:block th:replace="~{fragments :: messages}"></th:block>
+
+            <form class="card" th:action="@{/suivi}" method="post">
+                <div class="icon-circle blue" style="margin-bottom:18px"><svg class="ic lg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+                <h1>Suivre une demande</h1>
+                <p class="sub" style="margin-bottom:24px">Saisissez le code de suivi qui vous a été communiqué lors de la soumission de votre demande.</p>
+                <label for="reference">Code de suivi</label>
+                <input class="in code" id="reference" name="reference" type="text" placeholder="EDR-2026-K7P4QX" th:value="${reference}" pattern="\s*[Ee][Dd][Rr]-[0-9]{4}-[A-HJKMNP-Za-hjkmnp-z2-9]{6}\s*" required>
+                <p class="hint">Format : EDR, année, puis six caractères (lettres et chiffres). Le code figure sur l'écran de confirmation de votre demande.</p>
+                <div class="actions">
+                    <button class="btn p block" type="submit">Continuer</button>
+                </div>
+                <p class="hint">Un code de vérification sera envoyé par SMS au numéro déclaré lors de la demande.</p>
+            </form>
+        </section>
+
+        <div class="notice" style="margin-top:23px">
+            <div class="info-icon">i</div>
+            <div>
+                <strong>Pas encore de demande ?</strong>
+                <p>Vous pouvez <a th:href="@{/demandes/nouvelle}">déposer une nouvelle demande</a> en ligne, sans créer de compte.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer th:replace="~{fragments :: pied}"></footer>
+
+</body>
+
+</html>

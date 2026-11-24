@@ -39,11 +39,14 @@ public class SecurityConfig {
             .authorizeHttpRequests(acces -> acces
                 // feuilles de style et autres fichiers statiques
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                // pages publiques ("/suivi/**" couvre aussi "/suivi")
-                .requestMatchers("/", "/connexion", "/annuaire", "/suivi/**").permitAll()
+                // pages publiques
+                .requestMatchers("/", "/connexion", "/annuaire").permitAll()
                 // deposer une demande : un visiteur (particulier) ou un notaire, personne d'autre ;
                 // la confirmation est en plus limitee a son auteur par SoumissionService
                 .requestMatchers("/demandes/nouvelle/**", "/demandes/*/confirmation").access(visiteurOuNotaire())
+                // suivre une demande ("/suivi/**" couvre aussi "/suivi") : l'acces a UNE demande
+                // (code SMS ou notaire proprietaire) est ensuite verifie par SuiviService
+                .requestMatchers("/suivi/**").access(visiteurOuNotaire())
                 // page d'erreur de Spring Boot et sonde de sante
                 .requestMatchers("/error", "/actuator/health").permitAll()
                 .requestMatchers("/profil").authenticated()

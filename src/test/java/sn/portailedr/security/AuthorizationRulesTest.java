@@ -30,7 +30,7 @@ import sn.portailedr.repository.UtilisateurRepository;
 
 /**
  * Regles d'acces par URL : refus par defaut, routes publiques, routes reservees a un role.
- * Certaines pages autorisees n'existent pas encore (elles arrivent dans les tranches 6 et 7) :
+ * Certaines pages autorisees n'existent pas encore (elles arrivent dans la tranche 7) :
  * pour elles on verifie seulement que la securite laisse passer la requete (ni 401, ni 403,
  * ni redirection vers la connexion). La reponse est alors un 404 de l'application.
  */
@@ -100,12 +100,11 @@ class AuthorizationRulesTest {
         assertThat(mvc.get().uri(url)).hasStatusOk();
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"/suivi", "/suivi/EDR-2026-K7P4QX"})
-    void anonymeAccedeAuxRoutesPubliquesDesTranchesSuivantes(String url) {
-        MvcTestResult resultat = mvc.get().uri(url).exchange();
-        autorise(resultat);
-        assertThat(resultat).hasStatus(HttpStatus.NOT_FOUND);
+    /** Tranche 6 : la saisie du code existe ; sans verification SMS, une demande renvoie a la saisie. */
+    @Test
+    void anonymeAccedeAuSuivi() {
+        assertThat(mvc.get().uri("/suivi")).hasStatusOk();
+        assertThat(mvc.get().uri("/suivi/EDR-2026-K7P4QX")).hasRedirectedUrl("/suivi");
     }
 
     /** Tranche 5 : le formulaire de depot existe. Sans demande en attente, l'etape SMS renvoie au formulaire. */
@@ -150,8 +149,10 @@ class AuthorizationRulesTest {
                 arguments(Role.CONSERVATEUR, "/admin"),
                 arguments(Role.CONSERVATEUR, "/admin/bureaux"),
                 arguments(Role.CONSERVATEUR, "/demandes/nouvelle"),
+                arguments(Role.CONSERVATEUR, "/suivi"),
                 arguments(Role.ADMINISTRATEUR, "/conservateur/demandes"),
-                arguments(Role.ADMINISTRATEUR, "/demandes/nouvelle"));
+                arguments(Role.ADMINISTRATEUR, "/demandes/nouvelle"),
+                arguments(Role.ADMINISTRATEUR, "/suivi"));
     }
 
     @ParameterizedTest

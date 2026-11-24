@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vérification par SMS · Portail EDR</title>
+
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+</head>
+
+<body>
+
+    <header th:replace="~{fragments :: entete}"></header>
+
+    <!--
+        Etape 2 de suivi-code.html (#etape-sms), en page a part. La page est la meme que la reference
+        existe ou non : elle n'affiche donc pas la fin du numero declare, que montrait le prototype.
+    -->
+    <main class="page narrow">
+
+        <section>
+            <th:block th:replace="~{fragments :: messages}"></th:block>
+
+            <form class="card" th:action="@{/suivi/verification}" method="post">
+                <div class="icon-circle blue" style="margin-bottom:18px"><svg class="ic lg" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div>
+                <h1>Vérification par SMS</h1>
+                <p class="sub" style="margin-bottom:24px">Saisissez le code à <span th:text="${longueurCode}">6</span> chiffres envoyé au numéro déclaré pour la demande <b th:text="${reference}">EDR-2026-K7P4QX</b>.</p>
+                <label for="otp">Code de vérification</label>
+                <input class="in code" id="otp" name="code" type="text" inputmode="numeric" autocomplete="one-time-code"
+                       th:attr="maxlength=${longueurCode},pattern='[0-9]{' + ${longueurCode} + '}'" placeholder="000000" required>
+                <p class="hint">Envoi simulé dans cette version du portail : aucun SMS réel n'est envoyé.</p>
+                <div class="actions">
+                    <button class="btn p block" type="submit">Consulter ma demande</button>
+                </div>
+                <p class="hint">Cette vérification ouvre uniquement cette demande, pour la durée de votre visite. <a th:href="@{/suivi}">Changer de code de suivi</a></p>
+            </form>
+
+            <!-- "Renvoyer le code" etait un lien dans le prototype : c'est une action, donc un POST (CSRF). -->
+            <form class="renvoi" th:action="@{/suivi/verification/renvoi}" method="post" style="margin-top:14px">
+                <p class="hint">Vous n'avez rien reçu ? <button type="submit">Renvoyer le code</button></p>
+            </form>
+        </section>
+
+    </main>
+
+    <footer th:replace="~{fragments :: pied}"></footer>
+
+</body>
+
+</html>

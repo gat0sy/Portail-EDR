@@ -49,7 +49,7 @@
                     <p class="hint" style="margin-top:20px">Ces informations sont gérées par l'administrateur de la plateforme. Adressez-vous à lui pour toute modification.</p>
                 </section>
 
-                <!-- Les 5 plus recentes. Pas encore de lien vers le suivi : il arrive dans la tranche 6. -->
+                <!-- Les 5 plus recentes, chacune menant a sa page de suivi. -->
                 <section class="card flush" sec:authorize="hasRole('NOTAIRE')">
                     <div class="card-head">
                         <h2>Mes dernières demandes</h2>
@@ -59,7 +59,7 @@
                             <thead><tr><th>Référence</th><th>Objet</th><th>Soumise le</th><th>Statut</th></tr></thead>
                             <tbody>
                                 <tr th:each="ligne : ${demandes}">
-                                    <td><b th:text="${ligne.reference}">EDR-2026-Q2ZC5G</b></td>
+                                    <td><a th:href="@{/suivi/{r}(r=${ligne.reference})}" th:text="${ligne.reference}">EDR-2026-Q2ZC5G</a></td>
                                     <td th:text="${ligne.objet}">Personne</td>
                                     <td th:text="${ligne.dateSoumission}">10 nov. 2026</td>
                                     <td><span class="badge" th:classappend="${ligne.badge}" th:text="${ligne.statut}">Soumise</span></td>

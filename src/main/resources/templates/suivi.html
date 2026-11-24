@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Suivi de votre demande · Portail EDR</title>
+
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+</head>
+
+<body>
+
+    <header th:replace="~{fragments :: entete}"></header>
+
+    <!--
+        m2.html. Le prototype montrait l'etat "a payer" ou "paye" avec #paye:target et les classes
+        etat-a-payer / etat-paye. Ici le serveur choisit les blocs selon le statut de la demande :
+        ces classes ne sont pas reprises (base.css masque .etat-paye hors de :target).
+    -->
+    <main class="page" th:with="s=${suivi}">
+
+        <a class="back" sec:authorize="isAnonymous()" th:href="@{/suivi}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>Saisir un autre code de suivi</a>
+        <a class="back" sec:authorize="hasRole('NOTAIRE')" th:href="@{/profil}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>Retour à mon profil</a>
+
+        <h1>Suivi de votre demande</h1>
+
+        <div style="margin-top:24px">
+            <th:block th:replace="~{fragments :: messages}"></th:block>
+        </div>
+
+        <section class="card">
+            <div class="card-head" style="justify-content:flex-start;margin-bottom:0">
+                <h2 style="font-size:20px" th:text="|Demande ${s.reference}|">Demande EDR-2026-K7P4QX</h2>
+                <span class="badge" th:classappend="${s.badge}" th:if="${s.paiementPossible}">Disponible · paiement requis</span>
+                <span class="badge" th:classappend="${s.badge}" th:unless="${s.paiementPossible}" th:text="${s.statut}">Payée</span>
+            </div>
+
+            <dl class="dl four" style="margin-top:22px;padding-top:22px;border-top:1px solid var(--line)">
+                <div><dt>Objet</dt><dd th:text="${s.objet}">Sur un bien</dd></div>
+                <div th:if="${s.numeroTitreFoncier}"><dt>Titre foncier</dt><dd th:text="${s.numeroTitreFoncier}">4521/DK</dd></div>
+                <div th:if="${s.personneConcernee}"><dt>Personne concernée</dt><dd th:text="${s.personneConcernee}">Moustapha Sarr</dd></div>
+                <div><dt>Soumise le</dt><dd th:text="${s.dateSoumission}">3 novembre 2026</dd></div>
+                <div><dt>Bureau compétent</dt><dd th:text="${s.bureau}">Bureau de Dakar-Plateau</dd></div>
+            </dl>
+
+            <ol class="tl" th:unless="${#lists.isEmpty(s.etapes)}">
+                <li th:each="etape : ${s.etapes}" th:class="${etape.classe}">[[${etape.libelle}]]<small th:if="${etape.date}" th:text="${etape.date}">3 nov. 2026</small></li>
+            </ol>
+
+            <p class="explication" th:text="${s.explication}">Le résultat est disponible.</p>
+        </section>
+
+        <div class="cols even" style="margin-top:23px" th:if="${s.paiementEtResultat}">
+
+            <section class="card">
+                <h2>Paiement des frais</h2>
+
+                <form th:if="${s.paiementPossible}" th:action="@{/suivi/{r}/paiement(r=${s.reference})}" method="post">
+                    <div class="card-head" style="align-items:flex-end;margin-bottom:0">
+                        <div>
+                            <small style="color:var(--mut);font-weight:650;font-size:12px">Montant à régler</small>
+                            <div class="amount" th:text="${s.montant}">1 000 FCFA</div>
+                        </div>
+                        <span class="badge b-enc" th:text="|À régler avant le ${s.dateLimitePaiement}|">À régler avant le 18 novembre 2026</span>
+                    </div>
+
+                    <fieldset class="pay-modes">
+                        <label class="opt compact" th:each="mode, etat : ${modes}">
+                            <input type="radio" name="modePaiement" th:value="${mode.name()}" th:checked="${etat.first}">[[${mode.libelle}]]
+                        </label>
+                    </fieldset>
+
+                    <button class="btn p block" type="submit" th:text="|Payer ${s.montant}|">Payer 1 000 FCFA</button>
+                    <p class="hint"><b>Paiement simulé</b> : aucun montant réel n'est débité dans cette version du portail.</p>
+                    <p class="hint">Passé ce délai, la demande expire et le résultat n'est plus accessible.</p>
+                </form>
+
+                <div class="lock" th:if="${s.paiementConfirme == null and !s.paiementPossible}">
+                    <span class="file-ic"><svg class="ic lg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+                    <div><strong>Paiement impossible</strong><span>Le délai de paiement est dépassé.</span></div>
+                </div>
+
+                <div th:if="${s.paiementConfirme}">
+                    <div class="lock" style="background:var(--okbg)">
+                        <span class="file-ic" style="color:var(--ok)"><svg class="ic lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg></span>
+                        <div><strong>Paiement simulé confirmé</strong><span th:text="${s.paiementConfirme}">1 000 FCFA réglés par Wave le 12 novembre 2026</span></div>
+                    </div>
+                    <p class="hint" th:text="|Une confirmation vous a été envoyée (envoi simulé). Le résultat est téléchargeable pendant ${s.joursTelechargement} jours.|">Une confirmation vous a été envoyée (envoi simulé). Le résultat est téléchargeable pendant 15 jours.</p>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Résultat</h2>
+
+                <div class="lock">
+                    <span class="file-ic" th:unless="${s.telechargementOuvert}"><svg class="ic lg" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+                    <span class="file-ic" th:if="${s.telechargementOuvert}"><svg class="ic lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></span>
+                    <div>
+                        <strong>Résultat de la demande</strong>
+                        <span th:if="${s.paiementPossible}">Téléchargeable après paiement</span>
+                        <span th:if="${s.telechargementOuvert}" th:text="${s.typeResultat}">État des droits réels</span>
+                        <span th:if="${s.paiementConfirme != null and !s.telechargementOuvert}">Délai de téléchargement dépassé</span>
+                    </div>
+                </div>
+
+                <th:block th:if="${s.paiementPossible}">
+                    <button class="btn off block" type="button" disabled><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Télécharger le résultat</button>
+                    <p class="hint" style="margin:0 0 12px" th:text="|Après paiement, le résultat reste téléchargeable pendant ${s.joursTelechargement} jours.|">Après paiement, le résultat reste téléchargeable pendant 15 jours.</p>
+                </th:block>
+
+                <th:block th:if="${s.telechargementOuvert}">
+                    <p class="hint" style="margin:0 0 12px" th:text="|Téléchargeable jusqu'au ${s.telechargementJusquau}. Passé ce délai, une nouvelle demande sera nécessaire.|">Téléchargeable jusqu'au 27 novembre 2026. Passé ce délai, une nouvelle demande sera nécessaire.</p>
+                    <a class="btn p block" th:href="@{/suivi/{r}/resultat(r=${s.reference})}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg>Télécharger le résultat</a>
+                </th:block>
+            </section>
+
+        </div>
+
+        <section class="card" style="margin-top:23px" th:unless="${#lists.isEmpty(s.historique)}">
+            <h2>Messages envoyés</h2>
+            <div class="hist" style="margin-top:0;padding-top:0;border-top:0">
+                <dl class="dl one">
+                    <div th:each="ligne : ${s.historique}"><dt th:text="${ligne.libelle}">SMS · Code de vérification</dt><dd th:text="${ligne.date}">3 nov. 2026</dd></div>
+                </dl>
+            </div>
+            <p class="hint">Envois simulés dans cette version du portail : aucun SMS ni courriel réel n'est envoyé.</p>
+        </section>
+
+    </main>
+
+    <footer th:replace="~{fragments :: pied}"></footer>
+
+</body>
+
+</html>

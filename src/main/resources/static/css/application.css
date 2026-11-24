@@ -114,3 +114,10 @@
     color: var(--mut);
     font-size: 14px;
 }
+
+/* Page de suivi : phrase qui explique le statut, sous la frise. */
+.explication {
+    margin: 22px 0 0;
+    color: var(--mut);
+    font-size: 14px;
+}

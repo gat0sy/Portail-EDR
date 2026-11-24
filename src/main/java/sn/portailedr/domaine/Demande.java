@@ -104,8 +104,22 @@ public class Demande {
         return statut;
     }
 
+    /** Statut initial, a la creation (SOUMISE). Ensuite, passer par {@link #changerStatut}. */
     public void setStatut(StatutDemande statut) {
         this.statut = statut;
+    }
+
+    /**
+     * Transition du cycle de vie. Refuse tout changement que la figure 2.3 ne permet pas :
+     * les services verifient le statut avant (avec un message en francais), ceci est le filet.
+     *
+     * @throws IllegalStateException si la transition n'est pas permise
+     */
+    public void changerStatut(StatutDemande cible) {
+        if (!statut.peutPasserA(cible)) {
+            throw new IllegalStateException("Transition refusee : " + statut + " vers " + cible);
+        }
+        this.statut = cible;
     }
 
     public String getNumeroTitreFoncier() {
