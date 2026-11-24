@@ -7,12 +7,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authorization.AuthenticatedAuthorizationManager;
+import org.springframework.security.authorization.AuthorityAuthorizationManager;
+import org.springframework.security.authorization.AuthorizationManager;
+import org.springframework.security.authorization.AuthorizationManagers;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
+import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler;
 
 import sn.portailedr.repository.UtilisateurRepository;
@@ -35,7 +40,10 @@ public class SecurityConfig {
                 // feuilles de style et autres fichiers statiques
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 // pages publiques ("/suivi/**" couvre aussi "/suivi")
-                .requestMatchers("/", "/connexion", "/annuaire", "/suivi/**", "/demandes/nouvelle/**").permitAll()
+                .requestMatchers("/", "/connexion", "/annuaire", "/suivi/**").permitAll()
+                // deposer une demande : un visiteur (particulier) ou un notaire, personne d'autre ;
+                // la confirmation est en plus limitee a son auteur par SoumissionService
+                .requestMatchers("/demandes/nouvelle/**", "/demandes/*/confirmation").access(visiteurOuNotaire())
                 // page d'erreur de Spring Boot et sonde de sante
                 .requestMatchers("/error", "/actuator/health").permitAll()
                 .requestMatchers("/profil").authenticated()
@@ -53,6 +61,12 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/")
                 .deleteCookies("JSESSIONID"));
         return http.build();
+    }
+
+    /** Visiteur non connecte, ou compte connecte avec le role NOTAIRE. */
+    private static AuthorizationManager<RequestAuthorizationContext> visiteurOuNotaire() {
+        return AuthorizationManagers.anyOf(AuthenticatedAuthorizationManager.anonymous(),
+                AuthorityAuthorizationManager.hasRole("NOTAIRE"));
     }
 
     /**

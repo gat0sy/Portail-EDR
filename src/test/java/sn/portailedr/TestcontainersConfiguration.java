@@ -1,10 +1,15 @@
 package sn.portailedr;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Duration;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.DynamicPropertyRegistrar;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 
 /**
@@ -21,12 +26,30 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
  *
  * Delai d'attente du demarrage : 105 s au lieu des 60 s par defaut (x 1,75), pour
  * les postes de developpement au disque lent ou PostgreSQL met plus d'une minute a s'initialiser.
+ *
+ * Les pieces deposees pendant les tests vont dans un dossier temporaire du systeme,
+ * jamais dans le depot Git (propriete portail.fichiers.dossier).
  */
 @TestConfiguration(proxyBeanMethods = false)
 public class TestcontainersConfiguration {
 
     private static final PostgreSQLContainer POSTGRES = new PostgreSQLContainer("postgres:18")
             .withStartupTimeout(Duration.ofSeconds(105));
+
+    private static final Path DOSSIER_FICHIERS = dossierTemporaire();
+
+    private static Path dossierTemporaire() {
+        try {
+            return Files.createTempDirectory("portail-edr-tests-");
+        } catch (IOException erreur) {
+            throw new UncheckedIOException(erreur);
+        }
+    }
+
+    @Bean
+    DynamicPropertyRegistrar dossierFichiers() {
+        return registre -> registre.add("portail.fichiers.dossier", DOSSIER_FICHIERS::toString);
+    }
 
     @Bean
     @ServiceConnection

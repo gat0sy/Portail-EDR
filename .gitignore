@@ -11,3 +11,6 @@ target/
 .classpath
 .project
 .settings/
+
+# Pieces deposees en local (UPLOAD_DIR par defaut) : donnees personnelles, jamais versionnees
+donnees/

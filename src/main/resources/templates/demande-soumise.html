@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Demande soumise · Portail EDR</title>
+
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+</head>
+
+<body>
+
+    <header th:replace="~{fragments :: entete}"></header>
+
+    <!--
+        Le prototype choisissait les blocs par role (data-for / data-auth). Ici, c'est la demande qui
+        decide : celle d'un notaire ou celle d'un particulier (confirmation.notaire).
+        Le bouton "Suivre cette demande" du prototype arrive avec le suivi (tranche 6).
+    -->
+    <main class="page medium" th:with="c=${confirmation}">
+
+        <section class="card center">
+            <div class="icon-circle"><svg class="ic lg" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg></div>
+            <h1>Votre demande a bien été soumise</h1>
+            <p class="sub" style="margin-left:auto;margin-right:auto">Elle est transmise au conservateur du bureau compétent, qui vérifie la conformité du dossier.</p>
+
+            <div class="ref-box">
+                <small th:if="${c.notaire}">Référence de la demande</small>
+                <small th:unless="${c.notaire}">Votre code de suivi</small>
+                <b th:text="${c.reference}">EDR-2026-R5TY9B</b>
+            </div>
+
+            <dl class="dl four" style="text-align:left">
+                <div><dt>Objet</dt><dd th:text="${c.objet}">Sur un bien</dd></div>
+                <div th:if="${c.numeroTitreFoncier}"><dt>Titre foncier</dt><dd th:text="${c.numeroTitreFoncier}">12405/NGA</dd></div>
+                <div th:if="${c.personneConcernee}"><dt>Personne concernée</dt><dd th:text="${c.personneConcernee}">Moustapha Sarr</dd></div>
+                <div><dt>Bureau compétent</dt><dd th:text="${c.bureau}">Bureau de Ngor-Almadies</dd></div>
+                <div><dt>Soumise le</dt><dd th:text="${c.dateSoumission}">13 novembre 2026</dd></div>
+            </dl>
+
+            <div class="pieces-transmises">
+                <h2>Pièces transmises</h2>
+                <ul th:unless="${#lists.isEmpty(c.pieces)}">
+                    <li th:each="piece : ${c.pieces}" th:text="${piece}">Copie du titre foncier</li>
+                </ul>
+                <p class="hint" th:if="${#lists.isEmpty(c.pieces)}">Aucune pièce : aucune n'est requise pour une demande d'un notaire portant sur une personne.</p>
+            </div>
+
+            <div class="actions" style="justify-content:center">
+                <a class="btn p" th:href="@{/demandes/nouvelle}">Nouvelle demande</a>
+                <a class="btn s" th:if="${c.notaire}" th:href="@{/profil}">Retour à mon profil</a>
+                <a class="btn s" th:unless="${c.notaire}" th:href="@{/}">Retour à l'accueil</a>
+            </div>
+        </section>
+
+        <div class="notice" style="margin-top:23px" th:if="${c.notaire}">
+            <div class="info-icon">i</div>
+            <div>
+                <strong>Et maintenant ?</strong>
+                <p>Vous serez notifié dès que le résultat sera disponible. La demande reste accessible depuis votre profil, rubrique « Mes dernières demandes ».</p>
+            </div>
+        </div>
+
+        <!-- Le prototype ajoutait "Il vous a aussi ete envoye par SMS" : aucun SMS de ce type n'est prevu, la phrase est retiree. -->
+        <div class="notice" style="margin-top:23px" th:unless="${c.notaire}">
+            <div class="info-icon">i</div>
+            <div>
+                <strong>Conservez votre code de suivi</strong>
+                <p>Notez-le : il permet de suivre la demande, de régler les frais et de télécharger le résultat.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer th:replace="~{fragments :: pied}"></footer>
+
+</body>
+
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nouvelle demande · Portail EDR</title>
+
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+</head>
+
+<body>
+
+    <header th:replace="~{fragments :: entete}"></header>
+
+    <!--
+        Etape 1 de m1.html. L'etape 2 (code SMS) est une page a part : demande-verification.html.
+        Le bloc "Bien" ou "Personne" s'affiche selon le bouton coche, en CSS seulement (base.css).
+        Les champs d'un bloc masque sont envoyes mais ignores par le serveur : ils ne portent donc
+        pas l'attribut required, qui bloquerait l'envoi dans le navigateur.
+    -->
+    <main class="page">
+
+        <a class="back" th:href="@{/}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>Retour à l'accueil</a>
+
+        <h1>Nouvelle demande d'état des droits réels</h1>
+        <p class="sub" sec:authorize="isAnonymous()">Aucun compte n'est nécessaire pour un particulier. Votre numéro de téléphone est vérifié par SMS.</p>
+        <p class="sub" sec:authorize="hasRole('NOTAIRE')">Vous êtes connecté en tant que notaire : la demande est rattachée à votre compte, sans vérification par SMS.</p>
+
+        <section id="etape-demande" style="margin-top:26px">
+
+            <ol class="steps" sec:authorize="isAnonymous()">
+                <li class="on"><b>1</b>Votre demande</li>
+                <li><b>2</b>Vérification par SMS</li>
+                <li><b>3</b>Confirmation</li>
+            </ol>
+
+            <ol class="steps" sec:authorize="hasRole('NOTAIRE')">
+                <li class="on"><b>1</b>Votre demande</li>
+                <li><b>2</b>Confirmation</li>
+            </ol>
+
+            <div class="cols">
+
+                <form class="card" th:action="@{/demandes/nouvelle}" th:object="${demande}" method="post" enctype="multipart/form-data">
+
+                    <div class="notice" style="margin-bottom:23px" th:if="${retourDeVerification}" role="status">
+                        <div class="info-icon">i</div>
+                        <div><p>Vos informations ont été conservées. Ajoutez à nouveau les pièces avant de continuer : un nouveau code vous sera envoyé.</p></div>
+                    </div>
+
+                    <p class="field-error" th:if="${#fields.hasGlobalErrors()}" th:each="message : ${#fields.globalErrors()}" th:text="${message}">Erreur</p>
+
+                    <h2>Objet de la demande</h2>
+
+                    <div class="grid2">
+                        <label class="opt">
+                            <input type="radio" th:field="*{type}" id="objet-bien" value="BIEN">
+                            <div><strong>Sur un bien</strong><span>Droits et charges inscrits sur un immeuble déterminé</span></div>
+                        </label>
+                        <label class="opt">
+                            <input type="radio" th:field="*{type}" id="objet-personne" value="PERSONNE">
+                            <div><strong>Sur une personne</strong><span>Droits réels appartenant à une personne déterminée</span></div>
+                        </label>
+                    </div>
+                    <p class="field-error" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Erreur</p>
+
+                    <div class="grid2 sec">
+                        <div class="f-bien">
+                            <label for="tf">Numéro du titre foncier</label>
+                            <input class="in" id="tf" th:field="*{numeroTitreFoncier}" type="text" placeholder="12.405/NGA">
+                            <p class="hint">Le numéro se termine par le code du livre foncier (NGA, R, TH...).</p>
+                            <p class="field-error" th:if="${#fields.hasErrors('numeroTitreFoncier')}" th:errors="*{numeroTitreFoncier}">Erreur</p>
+                        </div>
+                        <div class="f-bien">
+                            <span class="label">Bureau compétent</span>
+                            <div class="in ph" id="tf-bureau">Déterminé par le code du livre foncier</div>
+                            <p class="hint">Déduit automatiquement du numéro du titre foncier. Il vous est indiqué à l'étape suivante.</p>
+                        </div>
+                        <div class="f-personne">
+                            <label for="pers">Personne concernée</label>
+                            <input class="in" id="pers" th:field="*{personneConcernee}" type="text" placeholder="Nom complet de la personne">
+                            <p class="field-error" th:if="${#fields.hasErrors('personneConcernee')}" th:errors="*{personneConcernee}">Erreur</p>
+                        </div>
+                        <div class="f-personne">
+                            <label for="bureau">Bureau de conservation foncière</label>
+                            <select class="in" id="bureau" th:field="*{idBureau}">
+                                <option th:each="bureau : ${bureaux}" th:value="${bureau.id}" th:text="${bureau.nom}">Bureau de Dakar-Plateau</option>
+                            </select>
+                            <p class="hint">Bureau où la recherche sur la personne sera effectuée.</p>
+                            <p class="field-error" th:if="${#fields.hasErrors('idBureau')}" th:errors="*{idBureau}">Erreur</p>
+                        </div>
+                    </div>
+
+                    <fieldset class="sec" sec:authorize="isAnonymous()" style="border:0">
+                        <h2>Vos informations</h2>
+                        <div class="grid2">
+                            <div>
+                                <label for="nom">Nom complet</label>
+                                <input class="in" id="nom" th:field="*{declarantNom}" type="text" required>
+                                <p class="field-error" th:if="${#fields.hasErrors('declarantNom')}" th:errors="*{declarantNom}">Erreur</p>
+                            </div>
+                            <div>
+                                <label for="tel">Numéro de téléphone</label>
+                                <input class="in" id="tel" th:field="*{declarantTelephone}" type="tel" placeholder="+221 77 000 00 00" required>
+                                <p class="field-error" th:if="${#fields.hasErrors('declarantTelephone')}" th:errors="*{declarantTelephone}">Erreur</p>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="cni">Numéro de la carte nationale d'identité</label>
+                            <input class="in" id="cni" th:field="*{declarantCni}" type="text" placeholder="Numéro figurant sur votre CNI" required>
+                            <!-- valeur declaree : le portail ne la verifie pas, et ne le pretend jamais -->
+                            <p class="field-error" th:if="${#fields.hasErrors('declarantCni')}" th:errors="*{declarantCni}">Erreur</p>
+                        </div>
+                    </fieldset>
+
+                    <div class="sec" sec:authorize="hasRole('NOTAIRE')">
+                        <h2>Demandeur</h2>
+                        <div class="file" style="margin-top:0">
+                            <span class="file-ic"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>
+                            <div class="grow"><strong sec:authentication="principal.nom">Me Mariama Fall</strong><small>Notaire · compte authentifié</small></div>
+                            <a th:href="@{/profil}">Mon profil</a>
+                        </div>
+                    </div>
+
+                    <div class="sec">
+                        <h2>Pièces requises</h2>
+                        <div class="grid2" sec:authorize="isAnonymous()">
+                            <div>
+                                <span class="label">Carte nationale d'identité, recto</span>
+                                <label class="drop">
+                                    <input type="file" name="cniRecto" accept=".jpg,.jpeg,.png" required>
+                                    <b>Ajouter une photo</b><br>JPG ou PNG, 5 Mo maximum
+                                </label>
+                                <p class="field-error" th:if="${#fields.hasErrors('cniRecto')}" th:errors="*{cniRecto}">Erreur</p>
+                            </div>
+                            <div>
+                                <span class="label">Carte nationale d'identité, verso</span>
+                                <label class="drop">
+                                    <input type="file" name="cniVerso" accept=".jpg,.jpeg,.png" required>
+                                    <b>Ajouter une photo</b><br>JPG ou PNG, 5 Mo maximum
+                                </label>
+                                <p class="field-error" th:if="${#fields.hasErrors('cniVerso')}" th:errors="*{cniVerso}">Erreur</p>
+                            </div>
+                        </div>
+                        <div class="field f-bien">
+                            <span class="label">Copie du titre foncier</span>
+                            <label class="drop">
+                                <input type="file" name="copieTitreFoncier" accept=".pdf,.jpg,.jpeg,.png">
+                                <b>Ajouter la copie</b><br>PDF, JPG ou PNG, 5 Mo maximum
+                            </label>
+                            <p class="field-error" th:if="${#fields.hasErrors('copieTitreFoncier')}" th:errors="*{copieTitreFoncier}">Erreur</p>
+                        </div>
+                        <p class="hint" sec:authorize="isAnonymous()">Les photos de votre CNI ne sont visibles que par le conservateur du bureau compétent et sont supprimées après la clôture de la demande.</p>
+                        <p class="hint f-personne" sec:authorize="hasRole('NOTAIRE')">Aucune pièce n'est requise pour une demande portant sur une personne.</p>
+                    </div>
+
+                    <div class="actions" sec:authorize="isAnonymous()">
+                        <button class="btn p" type="submit">Continuer</button>
+                        <p class="hint">Un code de vérification vous sera envoyé par SMS.</p>
+                    </div>
+
+                    <div class="actions" sec:authorize="hasRole('NOTAIRE')">
+                        <button class="btn p" type="submit">Soumettre la demande</button>
+                        <a class="btn s" th:href="@{/profil}">Annuler</a>
+                    </div>
+
+                </form>
+
+                <aside class="stack">
+                    <div class="card">
+                        <h2>Déroulement</h2>
+                        <ol class="flow">
+                            <li><div><strong>Soumission</strong><span>Formulaire, pièces et vérification du numéro</span></div></li>
+                            <li><div><strong>Vérification du dossier</strong><span>Par le conservateur du bureau compétent</span></div></li>
+                            <li><div><strong>Mise à disposition</strong><span>Vous êtes notifié par SMS</span></div></li>
+                            <li><div><strong>Paiement et téléchargement</strong><span>Le résultat est téléchargeable après paiement</span></div></li>
+                        </ol>
+                    </div>
+                    <div class="notice">
+                        <div class="info-icon">i</div>
+                        <div>
+                            <strong>Informations sur les frais</strong>
+                            <p>Les frais sont déterminés par la Conservation selon la grille tarifaire et affichés avant le paiement.</p>
+                        </div>
+                    </div>
+                </aside>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer th:replace="~{fragments :: pied}"></footer>
+
+</body>
+
+</html>

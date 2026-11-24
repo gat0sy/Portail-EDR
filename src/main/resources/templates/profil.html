@@ -49,12 +49,25 @@
                     <p class="hint" style="margin-top:20px">Ces informations sont gérées par l'administrateur de la plateforme. Adressez-vous à lui pour toute modification.</p>
                 </section>
 
-                <!-- La liste est remplie dans la tranche 5, quand le notaire pourra deposer des demandes. -->
+                <!-- Les 5 plus recentes. Pas encore de lien vers le suivi : il arrive dans la tranche 6. -->
                 <section class="card flush" sec:authorize="hasRole('NOTAIRE')">
                     <div class="card-head">
                         <h2>Mes dernières demandes</h2>
                     </div>
-                    <p class="hint" style="padding:0 27px 22px">Aucune demande pour le moment.</p>
+                    <div class="table-wrap" th:unless="${#lists.isEmpty(demandes)}">
+                        <table class="table">
+                            <thead><tr><th>Référence</th><th>Objet</th><th>Soumise le</th><th>Statut</th></tr></thead>
+                            <tbody>
+                                <tr th:each="ligne : ${demandes}">
+                                    <td><b th:text="${ligne.reference}">EDR-2026-Q2ZC5G</b></td>
+                                    <td th:text="${ligne.objet}">Personne</td>
+                                    <td th:text="${ligne.dateSoumission}">10 nov. 2026</td>
+                                    <td><span class="badge" th:classappend="${ligne.badge}" th:text="${ligne.statut}">Soumise</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="hint" style="padding:0 27px 22px" th:if="${#lists.isEmpty(demandes)}">Aucune demande pour le moment.</p>
                 </section>
             </div>
 

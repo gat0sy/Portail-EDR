@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vérification par SMS · Portail EDR</title>
+
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+</head>
+
+<body>
+
+    <header th:replace="~{fragments :: entete}"></header>
+
+    <!--
+        Etape 2 de m1.html (#etape-verification), en page a part : le serveur sait a quelle etape
+        en est le visiteur. La section ne reprend pas l'id du prototype, que base.css masque
+        hors de :target. Reserve aux visiteurs : un notaire n'a pas de code SMS.
+    -->
+    <main class="page">
+
+        <h1>Nouvelle demande d'état des droits réels</h1>
+        <p class="sub">Aucun compte n'est nécessaire pour un particulier. Votre numéro de téléphone est vérifié par SMS.</p>
+
+        <section style="margin-top:26px">
+
+            <ol class="steps">
+                <li class="done"><b><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg></b>Votre demande</li>
+                <li class="on"><b>2</b>Vérification par SMS</li>
+                <li><b>3</b>Confirmation</li>
+            </ol>
+
+            <div class="cols">
+
+                <div class="stack">
+                    <th:block th:replace="~{fragments :: messages}"></th:block>
+
+                    <form class="card" th:action="@{/demandes/nouvelle/verification}" method="post">
+                        <h2>Vérification de votre numéro</h2>
+                        <p class="sub" style="margin:0 0 20px">Saisissez le code à <span th:text="${longueurCode}">6</span> chiffres envoyé par SMS au <b th:text="${demande.declarantTelephone}">+221 77 000 00 00</b>.</p>
+                        <label for="otp">Code de vérification</label>
+                        <input class="in code" id="otp" name="code" type="text" inputmode="numeric" autocomplete="one-time-code"
+                               th:attr="maxlength=${longueurCode},pattern='[0-9]{' + ${longueurCode} + '}'" placeholder="000000" required>
+                        <p class="hint">Envoi simulé dans cette version du portail : aucun SMS réel n'est envoyé.</p>
+                        <div class="actions">
+                            <button class="btn p" type="submit">Valider et soumettre</button>
+                            <a class="btn s" th:href="@{/demandes/nouvelle}">Précédent</a>
+                        </div>
+                    </form>
+
+                    <!-- "Renvoyer le code" etait un lien dans le prototype : c'est une action, donc un POST (CSRF). -->
+                    <form class="renvoi" th:action="@{/demandes/nouvelle/verification/renvoi}" method="post">
+                        <p class="hint">Vous n'avez rien reçu ? <button type="submit">Renvoyer le code</button></p>
+                    </form>
+                </div>
+
+                <aside class="stack">
+                    <div class="card">
+                        <h2>Votre demande</h2>
+                        <dl class="dl one">
+                            <div><dt>Objet</dt><dd th:text="${demande.type.libelle}">Sur un bien</dd></div>
+                            <div th:if="${demande.numeroTitreFoncier}"><dt>Titre foncier</dt><dd th:text="${demande.numeroTitreFoncier}">12405/NGA</dd></div>
+                            <div th:if="${demande.personneConcernee}"><dt>Personne concernée</dt><dd th:text="${demande.personneConcernee}">Moustapha Sarr</dd></div>
+                            <div><dt>Bureau compétent</dt><dd th:text="${demande.nomBureau}">Bureau de Ngor-Almadies</dd></div>
+                        </dl>
+                        <p class="hint" style="margin-top:16px">La demande n'est enregistrée qu'après la vérification de votre numéro.</p>
+                    </div>
+                </aside>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer th:replace="~{fragments :: pied}"></footer>
+
+</body>
+
+</html>

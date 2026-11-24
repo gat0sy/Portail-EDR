@@ -81,3 +81,36 @@
     background: #FFFFFF;
     color: var(--ok);
 }
+
+/* "Renvoyer le code" : un formulaire POST dont le bouton a l'apparence d'un lien. */
+.renvoi {
+    margin: 0;
+}
+
+.renvoi button {
+    padding: 0;
+    background: none;
+    border: 0;
+    color: var(--pd);
+    font: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Page "Demande soumise" : liste des pieces transmises. */
+.pieces-transmises {
+    margin-top: 22px;
+    text-align: left;
+}
+
+.pieces-transmises h2 {
+    margin-bottom: 8px;
+}
+
+.pieces-transmises ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--mut);
+    font-size: 14px;
+}
