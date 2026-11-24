@@ -31,7 +31,7 @@ class Demande {
   statut : StatutDemande
   numeroTitreFoncier [0..1]
   personneConcernee [0..1]
-  declarantCni
+  declarantCni [0..1]
   declarantNom
   declarantTelephone
   telephoneVerifie

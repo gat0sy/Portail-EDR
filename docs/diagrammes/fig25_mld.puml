@@ -38,7 +38,7 @@ entity DEMANDE {
   statut
   numeroTitreFoncier
   personneConcernee
-  declarantCni
+  declarantCni (facultatif)
   declarantNom
   declarantTelephone
   telephoneVerifie
