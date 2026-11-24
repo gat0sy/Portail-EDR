@@ -1,0 +1,13 @@
+# Build Maven
+target/
+
+# Configuration locale (identifiants) : seul .env.example est versionne
+.env
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/

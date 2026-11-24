@@ -1,0 +1,24 @@
+# Base PostgreSQL pour le developpement local.
+# Le conteneur de l'application sera ajoute dans la tranche 9.
+# Les identifiants viennent du fichier .env (voir .env.example).
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      # PostgreSQL 18 range ses donnees dans /var/lib/postgresql/18/docker,
+      # le volume est donc monte sur /var/lib/postgresql.
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  postgres-data:
