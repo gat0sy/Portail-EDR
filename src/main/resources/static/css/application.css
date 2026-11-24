@@ -42,3 +42,42 @@
     background: #F7DAD7;
     color: var(--bad);
 }
+
+/* Supprimer, Desactiver, Reactiver : des formulaires POST (protection CSRF) dont le bouton
+   reprend l'apparence des liens .row-actions du prototype. */
+.table .row-actions form {
+    margin: 0;
+}
+
+.table .row-actions button {
+    padding: 0;
+    background: none;
+    border: 0;
+    color: var(--pd);
+    font-size: 13px;
+    text-decoration: underline;
+}
+
+.table .row-actions button.danger {
+    color: var(--bad);
+}
+
+/* Message d'erreur sous un champ de formulaire. */
+.field-error {
+    margin-top: 6px;
+    color: var(--bad);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Message de confirmation : meme forme que .notice, couleurs du badge b-pay (--ok, --okbg). */
+.notice.succes {
+    background: var(--okbg);
+    border-color: var(--okbg);
+    border-left-color: var(--ok);
+}
+
+.notice.succes .info-icon {
+    background: #FFFFFF;
+    color: var(--ok);
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Administration · Portail EDR</title>
+
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+</head>
+
+<body>
+
+    <header th:replace="~{fragments :: entete}"></header>
+
+    <main class="page">
+
+        <span class="tag">Administration</span>
+        <h1>Tableau de bord</h1>
+        <p class="sub" style="margin-bottom:24px">Gestion des éléments de référence de la plateforme.</p>
+
+        <nav th:replace="~{fragments :: onglets('accueil')}"></nav>
+
+        <section class="stats" aria-label="Chiffres clés">
+            <div class="stat"><small>Bureaux de conservation</small><b th:text="${tableau.bureaux}">6</b></div>
+            <div class="stat"><small>Conservateurs</small><b th:text="${tableau.conservateurs}">8</b></div>
+            <div class="stat"><small>Notaires</small><b th:text="${tableau.notaires}">5</b></div>
+            <div class="stat"><small>Demandes en cours</small><b th:text="${tableau.demandesEnCours}">12</b></div>
+        </section>
+
+        <div class="cols even">
+            <a class="link-card blue" th:href="@{/admin/bureaux}">
+                <div class="service-icon"><svg class="ic lg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-5h6v5"/><path d="M9 9h.01M15 9h.01"/><path d="M9 12h.01M15 12h.01"/></svg></div>
+                <h2>Bureaux de conservation</h2>
+                <p>Créer, modifier et consulter les bureaux de conservation foncière.</p>
+                <span class="go">Gérer les bureaux →</span>
+            </a>
+            <a class="link-card purple" th:href="@{/admin/profils}">
+                <div class="service-icon"><svg class="ic lg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 4.5a4 4 0 0 1 0 7"/><path d="M18 14.5a7 7 0 0 1 4 6.5"/></svg></div>
+                <h2>Profils</h2>
+                <p>Créer les comptes, attribuer les rôles et affecter les conservateurs à un bureau.</p>
+                <span class="go">Gérer les profils →</span>
+            </a>
+        </div>
+
+        <section class="card flush" style="margin-top:23px">
+            <div class="card-head"><h2>Journal des opérations récentes</h2></div>
+            <div class="table-wrap">
+                <table class="table">
+                    <thead><tr><th>Date</th><th>Utilisateur</th><th>Action</th><th>Demande</th></tr></thead>
+                    <tbody>
+                        <tr th:each="operation : ${tableau.operations}">
+                            <td th:text="${operation.date}">13 nov. 2026, 09:12</td>
+                            <td th:text="${operation.utilisateur}">Me Mariama Fall</td>
+                            <td class="wrap-ok" th:text="${operation.action}">Soumission d'une demande</td>
+                            <td th:text="${operation.demande}">EDR-2026-R5TY9B</td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(tableau.operations)}">
+                            <td colspan="4">Aucune opération enregistrée pour le moment.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <footer th:replace="~{fragments :: pied}"></footer>
+
+</body>
+
+</html>

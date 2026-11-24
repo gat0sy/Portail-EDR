@@ -30,6 +30,10 @@ public class CompteUtilisateur extends User {
         return nom;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
     public String getRoleLibelle() {
         return role.getLibelle();
     }

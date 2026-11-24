@@ -12,7 +12,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler;
+
+import sn.portailedr.repository.UtilisateurRepository;
 
 /**
  * Regles d'acces et connexion par formulaire.
@@ -23,8 +26,11 @@ import org.springframework.security.web.authentication.ExceptionMappingAuthentic
 public class SecurityConfig {
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http, UtilisateurRepository utilisateurs) throws Exception {
         http
+            // un compte desactive ou modifie perd sa session des la requete suivante (voir CompteActifFilter) ;
+            // le filtre n'est pas un bean, pour que Spring Boot ne l'enregistre pas une seconde fois
+            .addFilterBefore(new CompteActifFilter(utilisateurs), AuthorizationFilter.class)
             .authorizeHttpRequests(acces -> acces
                 // feuilles de style et autres fichiers statiques
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()

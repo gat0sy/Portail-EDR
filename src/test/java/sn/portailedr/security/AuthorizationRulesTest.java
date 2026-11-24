@@ -30,7 +30,7 @@ import sn.portailedr.repository.UtilisateurRepository;
 
 /**
  * Regles d'acces par URL : refus par defaut, routes publiques, routes reservees a un role.
- * Certaines pages autorisees n'existent pas encore (elles arrivent dans les tranches 3, 5 et 7) :
+ * Certaines pages autorisees n'existent pas encore (elles arrivent dans les tranches 5 a 7) :
  * pour elles on verifie seulement que la securite laisse passer la requete (ni 401, ni 403,
  * ni redirection vers la connexion). La reponse est alors un 404 de l'application.
  */
@@ -95,13 +95,13 @@ class AuthorizationRulesTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"/", "/connexion", "/css/base.css"})
+    @ValueSource(strings = {"/", "/connexion", "/annuaire", "/css/base.css"})
     void anonymeAccedeAuxPagesPubliquesExistantes(String url) {
         assertThat(mvc.get().uri(url)).hasStatusOk();
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"/annuaire", "/suivi", "/suivi/EDR-2026-K7P4QX", "/demandes/nouvelle",
+    @ValueSource(strings = {"/suivi", "/suivi/EDR-2026-K7P4QX", "/demandes/nouvelle",
         "/demandes/nouvelle/verification"})
     void anonymeAccedeAuxRoutesPubliquesDesTranchesSuivantes(String url) {
         MvcTestResult resultat = mvc.get().uri(url).exchange();
@@ -119,9 +119,9 @@ class AuthorizationRulesTest {
 
     @Test
     void administrateurAccedeAuxPagesDAdministration() {
-        autorise(mvc.get().uri("/admin").with(user(administrateur)).exchange());
-        autorise(mvc.get().uri("/admin/bureaux").with(user(administrateur)).exchange());
-        autorise(mvc.get().uri("/admin/profils").with(user(administrateur)).exchange());
+        assertThat(mvc.get().uri("/admin").with(user(administrateur))).hasStatusOk();
+        assertThat(mvc.get().uri("/admin/bureaux").with(user(administrateur))).hasStatusOk();
+        assertThat(mvc.get().uri("/admin/profils").with(user(administrateur))).hasStatusOk();
     }
 
     @Test

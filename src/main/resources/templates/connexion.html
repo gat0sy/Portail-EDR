@@ -35,6 +35,14 @@
             </div>
         </div>
 
+        <div class="notice erreur" style="margin-bottom:23px" th:if="${param.modifie}" role="alert">
+            <div class="info-icon">!</div>
+            <div>
+                <strong>Session terminée</strong>
+                <p>Votre compte a été modifié par l'administrateur. Reconnectez-vous.</p>
+            </div>
+        </div>
+
         <!-- Le POST /connexion est traite par Spring Security ; th:action ajoute le jeton CSRF. -->
         <form class="card" th:action="@{/connexion}" method="post">
             <div class="icon-circle blue" style="margin-bottom:18px"><svg class="ic lg" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/><path d="M10 12v2h4v-2"/></svg></div>

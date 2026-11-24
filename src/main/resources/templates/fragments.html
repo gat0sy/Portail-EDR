@@ -57,6 +57,21 @@
 
     </header>
 
+    <!-- Onglets des pages d'administration. actif : 'accueil', 'bureaux' ou 'profils'. -->
+    <nav class="tabs" aria-label="Administration" th:fragment="onglets(actif)"><a th:href="@{/admin}" th:classappend="${actif == 'accueil'} ? 'on'" th:attr="aria-current=${actif == 'accueil'} ? 'page'"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Tableau de bord</a><a th:href="@{/admin/bureaux}" th:classappend="${actif == 'bureaux'} ? 'on'" th:attr="aria-current=${actif == 'bureaux'} ? 'page'"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-5h6v5"/><path d="M9 9h.01M15 9h.01"/><path d="M9 12h.01M15 12h.01"/></svg>Bureaux de conservation</a><a th:href="@{/admin/profils}" th:classappend="${actif == 'profils'} ? 'on'" th:attr="aria-current=${actif == 'profils'} ? 'page'"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 4.5a4 4 0 0 1 0 7"/><path d="M18 14.5a7 7 0 0 1 4 6.5"/></svg>Profils</a></nav>
+
+    <!-- Message de confirmation ou de refus apres une action (attributs "message" et "erreur"). -->
+    <th:block th:fragment="messages">
+        <div class="notice succes" style="margin-bottom:23px" th:if="${message}" role="status">
+            <div class="info-icon">✓</div>
+            <div><p th:text="${message}">Bureau enregistré.</p></div>
+        </div>
+        <div class="notice erreur" style="margin-bottom:23px" th:if="${erreur}" role="alert">
+            <div class="info-icon">!</div>
+            <div><p th:text="${erreur}">Action refusée.</p></div>
+        </div>
+    </th:block>
+
     <footer class="site-footer" th:fragment="pied">
         Portail EDR · État des droits réels
     </footer>

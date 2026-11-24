@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gestion des bureaux de conservation · Portail EDR</title>
+
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+</head>
+
+<body>
+
+    <header th:replace="~{fragments :: entete}"></header>
+
+    <main class="page">
+
+        <span class="tag">Administration</span>
+        <h1>Bureaux de conservation</h1>
+        <p class="sub" style="margin-bottom:24px">Les bureaux reçoivent les demandes et regroupent les conservateurs qui les traitent. Chaque bureau tient un ou plusieurs livres fonciers : le code du livre, à la fin du numéro d'un titre foncier, permet d'affecter automatiquement une demande portant sur un bien.</p>
+
+        <nav th:replace="~{fragments :: onglets('bureaux')}"></nav>
+
+        <th:block th:replace="~{fragments :: messages}"></th:block>
+
+        <div class="cols">
+            <div>
+            <section class="card flush">
+                <div class="card-head"><h2 th:text="|Bureaux enregistrés · ${#lists.size(bureaux)}|">Bureaux enregistrés · 6</h2></div>
+                <div class="table-wrap">
+                    <table class="table">
+                        <thead><tr><th>Bureau</th><th>Livres fonciers</th><th>Conservateurs</th><th>Demandes en cours</th><th>Actions</th></tr></thead>
+                        <tbody>
+                            <tr th:each="ligne : ${bureaux}">
+                                <td><b th:text="${ligne.nom}">Bureau de Dakar-Plateau</b><small th:text="${ligne.adresse}">Dakar</small></td>
+                                <td><th:block th:each="code, etat : ${ligne.codes}"><span class="code-tag" th:text="${code}">DK</span><th:block th:unless="${etat.last}"> </th:block></th:block><th:block th:if="${#lists.isEmpty(ligne.codes)}">Aucun</th:block></td>
+                                <td th:text="${ligne.conservateurs}">2</td>
+                                <td th:text="${ligne.demandesEnCours}">4</td>
+                                <td><div class="row-actions">
+                                    <a th:href="@{/admin/bureaux(id=${ligne.id})} + '#formulaire'">Modifier</a>
+                                    <form th:action="@{/admin/bureaux/{id}/suppression(id=${ligne.id})}" method="post"><button class="danger" type="submit">Supprimer</button></form>
+                                </div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="hint" style="padding:0 27px 22px">Un bureau qui tient des livres fonciers, qui a des demandes ou des conservateurs affectés ne peut pas être supprimé.</p>
+            </section>
+            <section class="card flush" id="liste-livres" style="margin-top:23px">
+                <div class="card-head"><h2 th:text="|Livres fonciers · ${#lists.size(livres)}|">Livres fonciers · 7</h2></div>
+                <div class="table-wrap">
+                    <table class="table">
+                        <thead><tr><th>Code</th><th>Livre foncier</th><th>Bureau qui le tient</th><th>Actions</th></tr></thead>
+                        <tbody>
+                            <tr th:each="livre : ${livres}">
+                                <td><span class="code-tag" th:text="${livre.code}">DK</span></td>
+                                <td th:text="${livre.nom}">Dakar</td>
+                                <td th:text="${livre.bureau}">Bureau de Dakar-Plateau</td>
+                                <td><div class="row-actions">
+                                    <form th:action="@{/admin/bureaux/livres/{id}/suppression(id=${livre.id})}" method="post"><button class="danger" type="submit">Supprimer</button></form>
+                                </div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="hint" style="padding:0 27px 22px">Le code termine le numéro du titre foncier (12.405/NGA) et désigne le bureau compétent. Codes de démonstration, à vérifier auprès de la Conservation.</p>
+            </section>
+            </div>
+
+            <div class="stack">
+            <form class="card" id="formulaire" th:object="${bureau}" method="post" style="scroll-margin-top:96px"
+                  th:action="${idModifie} == null ? @{/admin/bureaux} : @{/admin/bureaux/{id}(id=${idModifie})}">
+                <h2 th:text="${idModifie} == null ? 'Ajouter un bureau' : 'Modifier le bureau'">Ajouter un bureau</h2>
+                <p class="field-error" th:if="${#fields.hasGlobalErrors()}" th:each="message : ${#fields.globalErrors()}" th:text="${message}">Erreur</p>
+                <div class="field">
+                    <label for="b-nom">Nom du bureau</label>
+                    <input class="in" id="b-nom" th:field="*{nom}" type="text" placeholder="Bureau de ..." required>
+                    <p class="field-error" th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}">Erreur</p>
+                </div>
+                <div class="field">
+                    <label for="b-adresse">Adresse</label>
+                    <input class="in" id="b-adresse" th:field="*{adresse}" type="text" placeholder="Ville, quartier, rue" required>
+                    <p class="field-error" th:if="${#fields.hasErrors('adresse')}" th:errors="*{adresse}">Erreur</p>
+                </div>
+                <div class="field">
+                    <label for="b-tel">Téléphone</label>
+                    <input class="in" id="b-tel" th:field="*{telephone}" type="tel" placeholder="+221 33 000 00 00" required>
+                    <p class="field-error" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}">Erreur</p>
+                </div>
+                <div class="actions">
+                    <button class="btn p block" type="submit">Enregistrer le bureau</button>
+                </div>
+                <p class="hint" th:if="${idModifie} != null"><a th:href="@{/admin/bureaux}">Annuler la modification</a></p>
+                <p class="hint">Les conservateurs sont affectés à un bureau depuis la <a th:href="@{/admin/profils}">gestion des profils</a>.</p>
+            </form>
+            <form class="card" id="livres" th:action="@{/admin/bureaux/livres}" th:object="${livre}" method="post" style="scroll-margin-top:96px">
+                <h2>Ajouter un livre foncier</h2>
+                <div class="grid2">
+                    <div>
+                        <label for="l-code">Code</label>
+                        <input class="in" id="l-code" th:field="*{code}" type="text" placeholder="NGA" maxlength="4" required>
+                        <p class="field-error" th:if="${#fields.hasErrors('code')}" th:errors="*{code}">Erreur</p>
+                    </div>
+                    <div>
+                        <label for="l-nom">Nom du livre</label>
+                        <input class="in" id="l-nom" th:field="*{nom}" type="text" placeholder="Ngor-Almadies" required>
+                        <p class="field-error" th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}">Erreur</p>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="l-bureau">Bureau qui tient ce livre</label>
+                    <select class="in" id="l-bureau" th:field="*{idBureau}">
+                        <option th:each="choix : ${choixBureaux}" th:value="${choix.id}" th:text="${choix.nom}">Bureau de Dakar-Plateau</option>
+                    </select>
+                    <p class="field-error" th:if="${#fields.hasErrors('idBureau')}" th:errors="*{idBureau}">Erreur</p>
+                </div>
+                <div class="actions">
+                    <button class="btn p block" type="submit">Enregistrer le livre</button>
+                </div>
+                <p class="hint">Le code est unique. Codes de démonstration, à vérifier auprès de la Conservation.</p>
+            </form>
+            </div>
+        </div>
+
+    </main>
+
+    <footer th:replace="~{fragments :: pied}"></footer>
+
+</body>
+
+</html>

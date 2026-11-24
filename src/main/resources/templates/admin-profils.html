@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Profils · Portail EDR</title>
+
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+</head>
+
+<body>
+
+    <header th:replace="~{fragments :: entete}"></header>
+
+    <main class="page">
+
+        <span class="tag">Administration</span>
+        <h1>Profils</h1>
+        <p class="sub" style="margin-bottom:24px">Comptes des notaires, des conservateurs et des administrateurs. Les particuliers n'ont pas de compte.</p>
+
+        <nav th:replace="~{fragments :: onglets('profils')}"></nav>
+
+        <th:block th:replace="~{fragments :: messages}"></th:block>
+
+        <nav class="chips" aria-label="Filtrer par rôle">
+            <a class="chip" th:classappend="${filtre == null} ? 'on'" th:href="@{/admin/profils}" th:text="|Tous · ${nombreTotal}|">Tous · 14</a>
+            <a class="chip" th:classappend="${filtre?.name() == 'NOTAIRE'} ? 'on'" th:href="@{/admin/profils(role='NOTAIRE')}" th:text="|Notaires · ${nombreNotaires}|">Notaires · 5</a>
+            <a class="chip" th:classappend="${filtre?.name() == 'CONSERVATEUR'} ? 'on'" th:href="@{/admin/profils(role='CONSERVATEUR')}" th:text="|Conservateurs · ${nombreConservateurs}|">Conservateurs · 8</a>
+            <a class="chip" th:classappend="${filtre?.name() == 'ADMINISTRATEUR'} ? 'on'" th:href="@{/admin/profils(role='ADMINISTRATEUR')}" th:text="|Administrateurs · ${nombreAdministrateurs}|">Administrateurs · 1</a>
+        </nav>
+
+        <div class="cols">
+            <section class="card flush">
+                <div class="card-head"><h2>Profils enregistrés</h2></div>
+                <div class="table-wrap">
+                    <table class="table">
+                        <thead><tr><th>Utilisateur</th><th>Rôle</th><th>Bureau</th><th>Statut</th><th>Actions</th></tr></thead>
+                        <tbody>
+                            <tr th:each="compte : ${profils}">
+                                <td><b th:text="${compte.nom}">Aïssatou Ba</b><small th:text="${compte.email}">a.ba@exemple.sn</small></td>
+                                <td><span class="badge" th:classappend="${compte.badgeRole}" th:text="${compte.roleLibelle}">Administrateur</span></td>
+                                <td th:text="${compte.bureau} ?: 'Aucun'">Aucun</td>
+                                <td>
+                                    <span class="badge b-pay" th:if="${compte.actif}">Actif</span>
+                                    <span class="badge b-exp" th:unless="${compte.actif}">Désactivé</span>
+                                </td>
+                                <td><div class="row-actions">
+                                    <a th:href="@{/admin/profils(id=${compte.id})} + '#formulaire'">Modifier</a>
+                                    <!-- Pas de bouton Desactiver sur son propre compte (refuse aussi par le service). -->
+                                    <form th:if="${compte.actif and not compte.soiMeme}" th:action="@{/admin/profils/{id}/desactivation(id=${compte.id})}" method="post"><button class="danger" type="submit">Désactiver</button></form>
+                                    <form th:unless="${compte.actif}" th:action="@{/admin/profils/{id}/reactivation(id=${compte.id})}" method="post"><button class="danger" type="submit">Réactiver</button></form>
+                                </div></td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(profils)}">
+                                <td colspan="5">Aucun profil pour ce rôle.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="hint" style="padding:6px 14px 12px" th:text="|${#lists.size(profils)} profils affichés sur ${nombreTotal}.|">6 profils affichés sur 14.</p>
+            </section>
+
+            <!-- Creation d'un compte -->
+            <form class="card" id="formulaire" th:if="${idModifie} == null" th:action="@{/admin/profils}" th:object="${nouveauProfil}" method="post" style="scroll-margin-top:96px">
+                <h2>Créer un profil</h2>
+                <p class="field-error" th:if="${#fields.hasGlobalErrors()}" th:each="message : ${#fields.globalErrors()}" th:text="${message}">Erreur</p>
+                <div class="field">
+                    <label for="u-nom">Nom complet</label>
+                    <input class="in" id="u-nom" th:field="*{nom}" type="text" required>
+                    <p class="field-error" th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}">Erreur</p>
+                </div>
+                <div class="field">
+                    <label for="u-email">Adresse e-mail</label>
+                    <input class="in" id="u-email" th:field="*{email}" type="email" placeholder="prenom.nom@exemple.sn" required>
+                    <p class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Erreur</p>
+                </div>
+                <div class="field">
+                    <label for="u-tel">Téléphone</label>
+                    <input class="in" id="u-tel" th:field="*{telephone}" type="tel" placeholder="+221 33 000 00 00" required>
+                    <p class="field-error" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}">Erreur</p>
+                </div>
+                <div class="field">
+                    <label for="u-role">Rôle</label>
+                    <select class="in" id="u-role" th:field="*{role}" required>
+                        <option value="">Choisir un rôle</option>
+                        <option th:each="r : ${roles}" th:value="${r}" th:text="${r.libelle}">Notaire</option>
+                    </select>
+                    <p class="field-error" th:if="${#fields.hasErrors('role')}" th:errors="*{role}">Erreur</p>
+                </div>
+                <div class="field">
+                    <label for="u-bureau">Bureau d'affectation</label>
+                    <select class="in" id="u-bureau" th:field="*{idBureau}">
+                        <option value="">Aucun</option>
+                        <option th:each="choix : ${choixBureaux}" th:value="${choix.id}" th:text="${choix.nom}">Bureau de Dakar-Plateau</option>
+                    </select>
+                    <p class="field-error" th:if="${#fields.hasErrors('idBureau')}" th:errors="*{idBureau}">Erreur</p>
+                    <p class="hint">Obligatoire pour un conservateur : il ne voit que les demandes de son bureau.</p>
+                </div>
+                <div class="field">
+                    <label for="u-mdp">Mot de passe provisoire</label>
+                    <input class="in" id="u-mdp" th:field="*{motDePasse}" type="password" autocomplete="new-password" minlength="8" required>
+                    <p class="field-error" th:if="${#fields.hasErrors('motDePasse')}" th:errors="*{motDePasse}">Erreur</p>
+                    <p class="hint">Au moins 8 caractères. Communiquez-le à l'utilisateur : aucun courriel n'est envoyé.</p>
+                </div>
+                <div class="actions">
+                    <button class="btn p block" type="submit">Créer le profil</button>
+                </div>
+            </form>
+
+            <!-- Modification d'un compte -->
+            <div class="stack" th:if="${idModifie} != null">
+                <form class="card" id="formulaire" th:action="@{/admin/profils/{id}(id=${idModifie})}" th:object="${profil}" method="post" style="scroll-margin-top:96px">
+                    <h2>Modifier le profil</h2>
+                    <p class="field-error" th:if="${#fields.hasGlobalErrors()}" th:each="message : ${#fields.globalErrors()}" th:text="${message}">Erreur</p>
+                    <div class="field">
+                        <label for="m-nom">Nom complet</label>
+                        <input class="in" id="m-nom" th:field="*{nom}" type="text" required>
+                        <p class="field-error" th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}">Erreur</p>
+                    </div>
+                    <div class="field">
+                        <label for="m-email">Adresse e-mail</label>
+                        <input class="in" id="m-email" th:field="*{email}" type="email" required>
+                        <p class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Erreur</p>
+                    </div>
+                    <div class="field">
+                        <label for="m-tel">Téléphone</label>
+                        <input class="in" id="m-tel" th:field="*{telephone}" type="tel" required>
+                        <p class="field-error" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}">Erreur</p>
+                    </div>
+                    <div class="field">
+                        <label for="m-role">Rôle</label>
+                        <select class="in" id="m-role" th:field="*{role}" required>
+                            <option th:each="r : ${roles}" th:value="${r}" th:text="${r.libelle}">Notaire</option>
+                        </select>
+                        <p class="field-error" th:if="${#fields.hasErrors('role')}" th:errors="*{role}">Erreur</p>
+                    </div>
+                    <div class="field">
+                        <label for="m-bureau">Bureau d'affectation</label>
+                        <select class="in" id="m-bureau" th:field="*{idBureau}">
+                            <option value="">Aucun</option>
+                            <option th:each="choix : ${choixBureaux}" th:value="${choix.id}" th:text="${choix.nom}">Bureau de Dakar-Plateau</option>
+                        </select>
+                        <p class="field-error" th:if="${#fields.hasErrors('idBureau')}" th:errors="*{idBureau}">Erreur</p>
+                        <p class="hint">Obligatoire pour un conservateur : il ne voit que les demandes de son bureau.</p>
+                    </div>
+                    <div class="actions">
+                        <button class="btn p block" type="submit">Enregistrer le profil</button>
+                    </div>
+                    <p class="hint"><a th:href="@{/admin/profils}">Annuler la modification</a></p>
+                </form>
+
+                <form class="card" th:action="@{/admin/profils/{id}/mot-de-passe(id=${idModifie})}" th:object="${motDePasse}" method="post">
+                    <h2>Réinitialiser le mot de passe</h2>
+                    <div class="field">
+                        <label for="m-mdp">Nouveau mot de passe provisoire</label>
+                        <input class="in" id="m-mdp" th:field="*{nouveauMotDePasse}" type="password" autocomplete="new-password" minlength="8" required>
+                        <p class="field-error" th:if="${#fields.hasErrors('nouveauMotDePasse')}" th:errors="*{nouveauMotDePasse}">Erreur</p>
+                        <p class="hint">Au moins 8 caractères. Communiquez-le à l'utilisateur : aucun courriel n'est envoyé.</p>
+                    </div>
+                    <div class="actions">
+                        <button class="btn s block" type="submit">Enregistrer le mot de passe provisoire</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <footer th:replace="~{fragments :: pied}"></footer>
+
+</body>
+
+</html>

@@ -1,5 +1,6 @@
 package sn.portailedr.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,4 +11,8 @@ public interface LivreFoncierRepository extends JpaRepository<LivreFoncier, Long
 
     /** Le code est unique et stocke en majuscules (NGA, TH, R...). */
     Optional<LivreFoncier> findByCode(String code);
+
+    List<LivreFoncier> findAllByOrderByCodeAsc();
+
+    boolean existsByBureauId(Long idBureau);
 }
