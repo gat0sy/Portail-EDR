@@ -67,6 +67,15 @@ public class StockagePieces {
         }
     }
 
+    /**
+     * Fichier d'une piece enregistree (PieceJointe.chemin est un nom de fichier, pas un chemin).
+     *
+     * @throws IllegalArgumentException si le nom contient un chemin ou sort du dossier
+     */
+    public Path fichier(String nom) {
+        return NomDeFichier.dans(pieces, nom);
+    }
+
     /** Nom que portera la piece une fois la demande enregistree (meme UUID, meme extension). */
     public String nomDefinitif(String fichierTemporaire) {
         return Path.of(fichierTemporaire).getFileName().toString();

@@ -30,6 +30,9 @@ public interface DemandeRepository extends JpaRepository<Demande, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<Demande> findWithLockByReference(String reference);
 
+    /** Demandes d'un bureau, de la plus recente a la plus ancienne (espace conservateur). */
+    List<Demande> findByBureauIdOrderByDateSoumissionDescIdDesc(Long idBureau);
+
     /** Dernieres demandes d'un notaire, de la plus recente a la plus ancienne. */
     List<Demande> findTop5ByUtilisateurIdOrderByDateSoumissionDescIdDesc(Long idUtilisateur);
 }

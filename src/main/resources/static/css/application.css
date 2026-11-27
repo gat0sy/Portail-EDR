@@ -121,3 +121,8 @@
     color: var(--mut);
     font-size: 14px;
 }
+
+/* Espace conservateur : chaque decision est un formulaire POST ; le bouton garde la largeur du prototype. */
+.detail .stack form {
+    margin: 0;
+}

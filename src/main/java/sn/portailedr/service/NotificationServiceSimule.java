@@ -49,9 +49,26 @@ public class NotificationServiceSimule implements NotificationService {
 
     @Override
     @Transactional(propagation = Propagation.MANDATORY)
+    public void notifierRejet(Demande demande) {
+        enregistrer(TypeNotification.REJET, demande, "demande rejetée");
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void notifierDisponibilite(Demande demande) {
+        enregistrer(TypeNotification.DISPONIBILITE, demande, "résultat disponible, frais à régler");
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public void notifierPaiement(Demande demande) {
-        notifications.save(new Notification(TypeNotification.PAIEMENT, horloge.instant(), demande));
-        JOURNAL.info("{} simulé : paiement confirmé pour la demande {} (aucun envoi réel)",
-                demande.getUtilisateur() == null ? "SMS" : "Courriel", demande.getReference());
+        enregistrer(TypeNotification.PAIEMENT, demande, "paiement confirmé");
+    }
+
+    /** SMS pour un particulier, courriel pour un notaire (canal du cahier des charges). */
+    private void enregistrer(TypeNotification type, Demande demande, String objet) {
+        notifications.save(new Notification(type, horloge.instant(), demande));
+        JOURNAL.info("{} simulé : {} pour la demande {} (aucun envoi réel)",
+                demande.getUtilisateur() == null ? "SMS" : "Courriel", objet, demande.getReference());
     }
 }

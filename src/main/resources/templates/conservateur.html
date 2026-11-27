@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Demandes du bureau · Portail EDR</title>
+
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+</head>
+
+<body>
+
+    <header th:replace="~{fragments :: entete}"></header>
+
+    <!--
+        m3.html. Le prototype affichait le detail choisi avec #d-...:target ; ici le detail est une route
+        (/conservateur/demandes/{reference}) et le serveur n'envoie que la demande choisie, dans le bloc
+        .detail.first que base.css affiche. Les frais ne se choisissent pas : c'est le tarif de la grille
+        pour le type de la demande (le prototype proposait une liste).
+    -->
+    <main class="page" th:with="b=${bureau},d=${bureau.detail}">
+
+        <span class="tag">Espace conservateur</span>
+        <h1>Demandes du bureau</h1>
+        <p class="sub" style="margin-bottom:24px" th:text="|Demandes affectées au ${b.bureau}.|">Demandes affectées au Bureau de Dakar-Plateau.</p>
+
+        <nav class="chips" aria-label="Filtrer par statut">
+            <a class="chip" th:each="f : ${b.filtres}" th:classappend="${f.code == b.filtre} ? 'on'"
+               th:href="${f.code == null} ? @{/conservateur/demandes} : @{/conservateur/demandes(statut=${f.code})}"
+               th:text="|${f.libelle} · ${f.nombre}|">Toutes · 7</a>
+        </nav>
+
+        <th:block th:replace="~{fragments :: messages}"></th:block>
+
+        <div class="cols wide">
+
+            <section class="card flush">
+                <div class="table-wrap">
+                    <table class="table">
+                        <thead><tr><th>Référence</th><th>Objet</th><th>Demandeur</th><th>Soumise le</th><th>Statut</th></tr></thead>
+                        <tbody>
+                            <tr th:each="ligne : ${b.lignes}" th:classappend="${d != null and d.reference == ligne.reference} ? 'sel'">
+                                <td><a th:href="${b.filtre == null} ? @{/conservateur/demandes/{r}(r=${ligne.reference})} : @{/conservateur/demandes/{r}(r=${ligne.reference},statut=${b.filtre})}" th:text="${ligne.reference}">EDR-2026-W8MS6E</a></td>
+                                <td th:text="${ligne.objet}">Bien</td>
+                                <td class="wrap-ok" th:text="${ligne.demandeur}">Awa Ndiaye</td>
+                                <td th:text="${ligne.dateSoumission}">11 nov. 2026</td>
+                                <td><span class="badge" th:classappend="${ligne.badge}" th:text="${ligne.statut}">Soumise</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="hint" style="padding:0 27px 22px" th:if="${#lists.isEmpty(b.lignes)}">Aucune demande pour ce filtre.</p>
+            </section>
+
+            <div>
+
+                <section class="card" th:if="${d == null}">
+                    <p class="hint" style="margin:0">Choisissez une demande dans la liste pour voir son dossier.</p>
+                </section>
+
+                <section class="card detail first" th:if="${d != null}">
+                    <div class="card-head">
+                        <h2 th:text="${d.reference}">EDR-2026-W8MS6E</h2>
+                        <span class="badge" th:classappend="${d.badge}" th:text="${d.statut}">Soumise</span>
+                    </div>
+
+                    <div class="blk">
+                        <h3>Objet</h3>
+                        <dl class="dl one">
+                            <div><dt>Type</dt><dd th:text="${d.objet}">Sur un bien</dd></div>
+                            <div th:if="${d.numeroTitreFoncier}"><dt>Titre foncier</dt><dd th:text="${d.numeroTitreFoncier}">7810/DK</dd></div>
+                            <div th:if="${d.personneConcernee}"><dt>Personne concernée</dt><dd th:text="${d.personneConcernee}">Moustapha Sarr</dd></div>
+                            <div><dt>Soumise le</dt><dd th:text="${d.dateSoumission}">11 novembre 2026</dd></div>
+                        </dl>
+                    </div>
+
+                    <div class="blk">
+                        <h3>Demandeur</h3>
+                        <dl class="dl one">
+                            <div><dt>Nom</dt><dd th:text="${d.demandeur}">Awa Ndiaye (particulier)</dd></div>
+                            <div><dt>Téléphone</dt><dd th:text="${d.telephone}">Vérifié par SMS</dd></div>
+                            <div th:if="${d.cni}"><dt>CNI</dt><dd th:text="${d.cni}">Numéro déclaré</dd></div>
+                        </dl>
+                    </div>
+
+                    <div class="blk">
+                        <h3>Pièces jointes</h3>
+                        <p class="hint" style="margin:0" th:if="${#lists.isEmpty(d.pieces)}">Aucune pièce jointe.</p>
+                        <div class="file" th:each="piece, etat : ${d.pieces}" th:style="${etat.first} ? 'margin-top:0'">
+                            <span class="file-ic" th:if="${piece.image}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M14 10h4M14 14h4M6 16h6"/></svg></span>
+                            <span class="file-ic" th:unless="${piece.image}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></span>
+                            <div class="grow"><strong th:text="${piece.libelle}">CNI, recto</strong><small th:text="${piece.taille.isEmpty()} ? ${piece.nomFichier} : |${piece.nomFichier} · ${piece.taille}|">cni_recto.jpg · 1,2 Mo</small></div>
+                            <a th:href="@{/conservateur/demandes/{r}/pieces/{id}(r=${d.reference},id=${piece.id})}" target="_blank" rel="noopener">Ouvrir</a>
+                        </div>
+                    </div>
+
+                    <!-- Demande SOUMISE : verification de la conformite -->
+                    <div class="blk" style="padding-bottom:0" th:if="${d.peutStatuer}">
+                        <h3>Vérification de la conformité</h3>
+                        <div class="stack" style="margin-top:0">
+                            <form th:action="@{/conservateur/demandes/{r}/conformite(r=${d.reference})}" method="post">
+                                <button class="btn p" type="submit"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Déclarer le dossier conforme</button>
+                            </form>
+                            <form th:action="@{/conservateur/demandes/{r}/rejet(r=${d.reference})}" method="post">
+                                <button class="btn d" type="submit">Rejeter la demande</button>
+                            </form>
+                        </div>
+                        <p class="hint">Un dossier conforme passe au statut « En cours » et la recherche démarre. Le rejet n'est possible qu'à cette étape ; le demandeur en est notifié.</p>
+                    </div>
+
+                    <!-- Demande EN_COURS : resultat, frais et publication -->
+                    <form class="blk" style="padding-bottom:0" th:if="${d.peutPublier}"
+                          th:action="@{/conservateur/demandes/{r}/publication(r=${d.reference})}" method="post" enctype="multipart/form-data">
+                        <h3>Résultat de la recherche</h3>
+
+                        <div class="stack" style="margin-top:0">
+                            <label class="opt compact" th:each="type, etat : ${typesResultat}">
+                                <input type="radio" name="typeResultat" th:value="${type.name()}" th:checked="${etat.first}">[[${type.libelle}]]
+                            </label>
+                        </div>
+
+                        <div class="field">
+                            <span class="label">Frais selon la grille tarifaire</span>
+                            <div class="in ph" th:text="|${d.objet} · ${d.tarif}|">Sur un bien · 1 000 FCFA</div>
+                        </div>
+
+                        <div class="field">
+                            <span class="label">Document du résultat</span>
+                            <label class="drop">
+                                <input type="file" name="fichier" accept=".pdf" required>
+                                <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4"/><path d="m7 8 5-5 5 5"/><path d="M4 21h16"/></svg><br>Déposez le résultat signé ou <b>parcourez votre poste</b><br>PDF uniquement, 5 Mo maximum
+                            </label>
+                        </div>
+
+                        <div class="stack">
+                            <button class="btn p" type="submit">Publier le résultat</button>
+                        </div>
+                        <p class="hint">À la publication, la demande passe au statut « Disponible » et le demandeur est notifié. Le résultat reste verrouillé jusqu'au paiement.</p>
+                    </form>
+
+                    <!-- Resultat deja publie -->
+                    <div class="blk" style="padding-bottom:0" th:if="${d.resultat}">
+                        <h3>Résultat</h3>
+                        <dl class="dl one">
+                            <div><dt>Document</dt><dd th:text="${d.resultat}">État des droits réels, publié le 11 novembre 2026</dd></div>
+                            <div th:if="${d.dateLimitePaiement}"><dt>À régler avant le</dt><dd th:text="${d.dateLimitePaiement}">18 novembre 2026</dd></div>
+                        </dl>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+    </main>
+
+    <footer th:replace="~{fragments :: pied}"></footer>
+
+</body>
+
+</html>
